@@ -11,6 +11,33 @@ window.SITE = {
   thanksUrl: 'https://selim-auto-care.vercel.app/thanks',             // where FormSubmit sends the visitor after a lead
   maxUploadMB: 10,
 
+  // Country codes offered in the lead form. First entry is the default.
+  // digits: allowed national-number lengths; mobilePrefix (optional): regex the national number must match.
+  countryCodes: [
+    { iso: 'AE', name: 'UAE', ar: 'الإمارات', code: '971', flag: '🇦🇪', digits: [9], mobilePrefix: '^5' },
+    { iso: 'SA', name: 'Saudi Arabia', ar: 'السعودية', code: '966', flag: '🇸🇦', digits: [9], mobilePrefix: '^5' },
+    { iso: 'OM', name: 'Oman', ar: 'عُمان', code: '968', flag: '🇴🇲', digits: [8], mobilePrefix: '^[79]' },
+    { iso: 'QA', name: 'Qatar', ar: 'قطر', code: '974', flag: '🇶🇦', digits: [8], mobilePrefix: '^[3567]' },
+    { iso: 'BH', name: 'Bahrain', ar: 'البحرين', code: '973', flag: '🇧🇭', digits: [8], mobilePrefix: '^[3]' },
+    { iso: 'KW', name: 'Kuwait', ar: 'الكويت', code: '965', flag: '🇰🇼', digits: [8], mobilePrefix: '^[569]' },
+    { iso: 'EG', name: 'Egypt', ar: 'مصر', code: '20', flag: '🇪🇬', digits: [10], mobilePrefix: '^1' },
+    { iso: 'JO', name: 'Jordan', ar: 'الأردن', code: '962', flag: '🇯🇴', digits: [9], mobilePrefix: '^7' },
+    { iso: 'LB', name: 'Lebanon', ar: 'لبنان', code: '961', flag: '🇱🇧', digits: [7, 8] },
+    { iso: 'IN', name: 'India', ar: 'الهند', code: '91', flag: '🇮🇳', digits: [10], mobilePrefix: '^[6-9]' },
+    { iso: 'PK', name: 'Pakistan', ar: 'باكستان', code: '92', flag: '🇵🇰', digits: [10], mobilePrefix: '^3' },
+    { iso: 'BD', name: 'Bangladesh', ar: 'بنغلاديش', code: '880', flag: '🇧🇩', digits: [10], mobilePrefix: '^1' },
+    { iso: 'PH', name: 'Philippines', ar: 'الفلبين', code: '63', flag: '🇵🇭', digits: [10], mobilePrefix: '^9' },
+    { iso: 'LK', name: 'Sri Lanka', ar: 'سريلانكا', code: '94', flag: '🇱🇰', digits: [9], mobilePrefix: '^7' },
+    { iso: 'NP', name: 'Nepal', ar: 'نيبال', code: '977', flag: '🇳🇵', digits: [10], mobilePrefix: '^9' },
+    { iso: 'GB', name: 'United Kingdom', ar: 'المملكة المتحدة', code: '44', flag: '🇬🇧', digits: [10], mobilePrefix: '^7' },
+    { iso: 'FR', name: 'France', ar: 'فرنسا', code: '33', flag: '🇫🇷', digits: [9], mobilePrefix: '^[67]' },
+    { iso: 'DE', name: 'Germany', ar: 'ألمانيا', code: '49', flag: '🇩🇪', digits: [10, 11] },
+    { iso: 'US', name: 'USA / Canada', ar: 'أمريكا / كندا', code: '1', flag: '🇺🇸', digits: [10] },
+    { iso: 'TR', name: 'Türkiye', ar: 'تركيا', code: '90', flag: '🇹🇷', digits: [10], mobilePrefix: '^5' },
+    { iso: 'MA', name: 'Morocco', ar: 'المغرب', code: '212', flag: '🇲🇦', digits: [9], mobilePrefix: '^[67]' },
+    { iso: 'XX', name: 'Other', ar: 'أخرى', code: '', flag: '🌍', digits: [6, 7, 8, 9, 10, 11, 12] },
+  ],
+
   // Contact details shown on the page (replace the placeholders)
   phoneDisplay: '+971 52 515 5001',
   phoneE164: '+971525155001',           // used for tel: and WhatsApp links

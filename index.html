@@ -24,13 +24,7 @@
   <header class="nav" id="top">
     <div class="nav__inner container">
       <a href="#top" class="brand" aria-label="Selim Auto Care home">
-        <span class="brand__mark" aria-hidden="true">
-          <svg viewBox="0 0 40 40" width="40" height="40"><defs><linearGradient id="g1" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#4f8dff"/><stop offset="1" stop-color="#1b4fd8"/></linearGradient></defs><path d="M20 2l16 7v11c0 9-7 15.5-16 18C11 35.5 4 29 4 20V9l16-7z" fill="url(#g1)"/><path d="M12 22l5 5 11-12" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
-        <span class="brand__text">
-          <span class="brand__name">SELIM <b>AUTO CARE</b></span>
-          <span class="brand__tag" data-i18n="brand.tag">Peugeot Specialists</span>
-        </span>
+        <img src="/assets/img/logo.webp" alt="Mohammed Selim Absar Auto Repair Workshop" class="brand__logo" width="900" height="260">
       </a>
 
       <nav class="nav__links" aria-label="Primary">
@@ -352,14 +346,25 @@
         <input type="hidden" name="Services" id="leadServices" value="">
         <input type="hidden" name="Language" id="leadLang" value="en">
         <div class="lead__row">
-          <label><span data-i18n="form.name">Full name *</span><input type="text" name="Name" autocomplete="name" required placeholder="Ahmed Al Mansoori" data-i18n-ph="form.namePh"></label>
-          <label><span data-i18n="form.phone">Mobile *</span><input type="tel" name="Mobile" autocomplete="tel" required placeholder="+971 50 123 4567" inputmode="tel"></label>
+          <label><span data-i18n="form.name">Full name *</span><input type="text" name="Name" autocomplete="name" required minlength="2" placeholder="Ahmed Al Mansoori" data-i18n-ph="form.namePh"><small class="err" data-err="name"></small></label>
+          <label><span data-i18n="form.email">Email *</span><input type="email" name="Email" id="leadEmail" autocomplete="email" required placeholder="you@example.com" inputmode="email" spellcheck="false"><small class="err" data-err="email"></small></label>
         </div>
+        <label class="lead__full phone">
+          <span data-i18n="form.phone">Mobile *</span>
+          <span class="phone__row">
+            <select id="leadCC" aria-label="Country code" autocomplete="tel-country-code"></select>
+            <input type="tel" id="leadMobile" autocomplete="tel-national" required placeholder="50 123 4567" inputmode="tel">
+          </span>
+          <small class="err" data-err="mobile"></small>
+          <input type="hidden" name="Mobile" id="leadMobileFull">
+          <input type="hidden" name="_replyto" id="leadReplyTo">
+        </label>
         <label class="lead__full"><span data-i18n="form.model">Peugeot model *</span>
           <select name="Model" id="leadModel" required>
             <option value="" data-i18n="form.modelPh">Select model</option>
             <option>208 / e-208</option><option>2008 / e-2008</option><option>301</option><option>308</option><option>3008</option><option>408</option><option>5008</option><option>508</option><option>Partner</option><option>Rifter</option><option>Expert</option><option>Traveller</option><option>Boxer</option><option>Landtrek</option><option value="Other" data-i18n="form.modelOther">Other / older model</option>
           </select>
+          <small class="err" data-err="model"></small>
         </label>
         <div class="lead__row">
           <label><span data-i18n="form.chassis">Chassis No</span><input type="text" name="Chassis No" placeholder="VF3…" autocomplete="off" spellcheck="false"></label>
@@ -377,6 +382,7 @@
         </div>
         <fieldset class="lead__chips">
           <legend data-i18n="form.need">What do you need? *</legend>
+          <small class="err err--block" data-err="services"></small>
           <div class="chips" id="needChips">
             <label><input type="checkbox" value="Full service"><span data-i18n="form.n1">Full service</span></label>
             <label><input type="checkbox" value="Oil change"><span data-i18n="form.n2">Oil change</span></label>
@@ -392,6 +398,7 @@
         </fieldset>
         <label class="lead__full"><span data-i18n="form.msg">Anything else we should know?</span><textarea name="Message" rows="3" placeholder="e.g. Engine light on since Tuesday" data-i18n-ph="form.msgPh"></textarea></label>
         <label class="consent"><input type="checkbox" id="leadConsent" required><span data-i18n="form.consent">I agree to be contacted about this request. We never share your details.</span></label>
+        <small class="err err--block" data-err="consent"></small>
         <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button type="submit" class="btn btn--primary btn--lg" id="leadSubmit"><span data-i18n="form.submit">Send my request</span></button>
         <p class="lead__status" id="leadStatus" role="status" aria-live="polite"></p>
@@ -404,7 +411,7 @@
   <footer class="footer">
     <div class="container footer__grid">
       <div class="footer__brand">
-        <span class="brand__name">SELIM <b>AUTO CARE</b></span>
+        <img src="/assets/img/logo.webp" alt="Mohammed Selim Absar Auto Repair Workshop" class="footer__logo" width="900" height="260" loading="lazy">
         <p data-i18n="footer.blurb">Independent Peugeot specialist garage. Service, repair, diagnostics and parts for every Peugeot model.</p>
         <p class="footer__disclaimer" data-i18n="footer.disclaimer">Selim Auto Care is an independent workshop and is not affiliated with, authorised by or endorsed by Stellantis or Automobiles Peugeot. Peugeot and the lion emblem are trademarks of their respective owners and are used for identification only.</p>
       </div>
@@ -435,7 +442,7 @@
       </div>
     </div>
     <div class="container footer__bottom">
-      <span>&copy; <span id="year"></span> Selim Auto Care. <span data-i18n="footer.rights">All rights reserved.</span></span>
+      <span>&copy; <span id="year"></span> Mohammed Selim Absar Auto Repair Workshop L.L.C. <span data-i18n="footer.rights">All rights reserved.</span></span>
       <span><a href="#top" data-i18n="footer.top">Back to top</a></span>
     </div>
   </footer>

@@ -13,13 +13,18 @@ Static, dependency-free site (HTML + CSS + vanilla JS + Chart.js from CDN). Depl
 ## Lead form: how email delivery works
 The lead form posts natively (multipart, so the registration-card photo travels as an attachment) to [FormSubmit](https://formsubmit.co) at `https://formsubmit.co/selimautocare@gmail.com`, which emails the lead and redirects the visitor to `/thanks` (Arabic: `/thanks?lang=ar`). The footer reminder sign-up uses the AJAX endpoint. No account or API key is needed.
 
-Fields sent: Name, Mobile, Model, Chassis No, Engine No, Services, Message, Language, plus the optional attachment (JPG/PNG/PDF, 10 MB limit enforced client-side and by FormSubmit). Email, year, date and pick-up fields were removed on request to keep the form minimal.
+Fields sent: Name, Email (also set as reply-to), Mobile (country code + number, normalised to +971 50 123 4567 format), Model, Chassis No, Engine No, Services, Message, Language, plus the optional attachment (JPG/PNG/PDF, 10 MB limit enforced client-side and by FormSubmit).
+
+Validation runs in the browser before anything is sent: name length, email syntax plus common typo domains (.con, gmail.co), and mobile length/prefix per country (`countryCodes` in config.js; UAE requires 9 digits starting with 5, leading 0 and country code are stripped automatically). Errors show under each field in the active language.
 
 WhatsApp: all WhatsApp links and the floating button use `phoneE164` in `assets/js/config.js` (+971 52 515 5001). The number is deliberately not displayed on the page.
 
 **One-time activation:** the first time someone submits the form, FormSubmit sends an email to selimautocare@gmail.com with an **Activate Form** button. Click it once. Every submission after that arrives as a table-formatted email with the reply-to set to the customer's address.
 
 Optional hardening: after activation, FormSubmit gives you a random alias for the address (e.g. `https://formsubmit.co/ajax/abc123…`). Paste it into `formEndpoint` in `assets/js/config.js` so the raw email is not visible in page source.
+
+## Logo
+`assets/img/logo.webp` is the Mohammed Selim Absar Auto Repair Workshop sign cut out of its dark plate so it sits on the navy theme; `assets/img/logo.png` is the full-resolution master. `assets/favicon.svg` is a gold SA monogram.
 
 ## Editing content
 - `assets/js/config.js` — phone, WhatsApp, address, chart figures, service intervals

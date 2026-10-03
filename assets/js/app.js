@@ -30,6 +30,7 @@
     if (persist) { try { localStorage.setItem('sac-lang', lang); } catch (e) {} }
     renderServices();
     if (hero.imgs.length) { $('#heroName').textContent = (lang === 'ar' ? 'بيجو ' : 'Peugeot ') + S.heroCars[hero.i].name; }
+    const lf = $('#leadForm'); if (lf && lf._fillCC) lf._fillCC();
     const ft = $('#fileText'); if (ft && !$('#fileField').classList.contains('has-file')) ft.textContent = t('form.photoBtn');
     carousel.render();
     buildCharts();
@@ -298,10 +299,54 @@
     if (j && j.success === 'false') throw new Error(j.message || 'rejected');
     return j;
   }
+  /* ---- validators ---- */
+  const EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+  function validEmail(v) { v = v.trim(); if (!EMAIL_RE.test(v) || v.length > 254) return false; const dom = v.split('@')[1].toLowerCase(); if (/\.(con|cmo|cm|comm|gmial|gamil)$/.test(dom) || /^(gmail|yahoo|hotmail|outlook)\.co$/.test(dom)) return false; return true; }
+  function parseMobile(cc, raw) {
+    let n = String(raw).replace(/[^\d+]/g, '');
+    const codeDigits = cc.code;
+    if (n.startsWith('+')) n = n.slice(1);
+    if (n.startsWith('00')) n = n.slice(2);
+    if (codeDigits && n.startsWith(codeDigits) && n.length > codeDigits.length + 5) n = n.slice(codeDigits.length); // typed with country code
+    n = n.replace(/^0+/, '');                              // drop trunk zero (050 -> 50)
+    if (cc.iso === 'XX') { const full = n.replace(/\D/g, ''); return { ok: /^\d{8,15}$/.test(full), full: '+' + full, national: full }; }
+    const ok = cc.digits.includes(n.length) && /^\d+$/.test(n) && (!cc.mobilePrefix || new RegExp(cc.mobilePrefix).test(n));
+    return { ok, full: '+' + codeDigits + n, national: n };
+  }
+  const fmtMobile = (cc, n) => cc.iso === 'AE' && n.length === 9 ? `+971 ${n.slice(0, 2)} ${n.slice(2, 5)} ${n.slice(5)}` : `+${cc.code} ${n}`;
+
   function initLeadForm() {
     const f = $('#leadForm'), st = $('#leadStatus'), btn = $('#leadSubmit');
     const fileIn = $('#leadFile'), fileField = $('#fileField'), fileText = $('#fileText'), fileClear = $('#fileClear');
+    const ccSel = $('#leadCC'), mob = $('#leadMobile'), email = $('#leadEmail');
     const maxBytes = (S.maxUploadMB || 10) * 1024 * 1024;
+
+    // country codes
+    const fillCC = () => { const cur = ccSel.value; ccSel.innerHTML = S.countryCodes.map(c => `<option value="${c.iso}">${c.flag} ${c.code ? '+' + c.code : ''} ${lang === 'ar' ? c.ar : c.name}</option>`).join(''); ccSel.value = cur && S.countryCodes.some(c => c.iso === cur) ? cur : S.countryCodes[0].iso; };
+    fillCC(); f._fillCC = fillCC;
+    const cc = () => S.countryCodes.find(c => c.iso === ccSel.value) || S.countryCodes[0];
+    ccSel.addEventListener('change', () => { mob.placeholder = cc().iso === 'AE' ? '50 123 4567' : ''; if (mob.value) check('mobile'); });
+
+    // field-level validation
+    const show = (key, msg, el) => { const e = $(`[data-err="${key}"]`, f); if (e) { e.textContent = msg || ''; e.classList.toggle('show', !!msg); } if (el) { el.classList.toggle('is-invalid', !!msg); el.classList.toggle('is-valid', !msg && !!el.value); } return !msg; };
+    const check = (key) => {
+      switch (key) {
+        case 'name': return show('name', f.Name.value.trim().length >= 2 ? '' : t('form.errName'), f.Name);
+        case 'email': return show('email', validEmail(email.value) ? '' : t('form.errEmail'), email);
+        case 'mobile': { const r = parseMobile(cc(), mob.value); return show('mobile', r.ok ? '' : (cc().iso === 'AE' ? t('form.errMobileUae') : t('form.errMobile')), mob); }
+        case 'model': return show('model', f.Model.value ? '' : t('form.errModel'), f.Model);
+        case 'services': return show('services', $$('#needChips input:checked').length ? '' : t('form.errServices'));
+        case 'consent': return show('consent', $('#leadConsent').checked ? '' : t('form.errConsent'));
+      }
+      return true;
+    };
+    f.Name.addEventListener('blur', () => check('name')); f.Name.addEventListener('input', () => { if (f.Name.classList.contains('is-invalid')) check('name'); });
+    email.addEventListener('blur', () => check('email')); email.addEventListener('input', () => { if (email.classList.contains('is-invalid')) check('email'); });
+    mob.addEventListener('blur', () => check('mobile')); mob.addEventListener('input', () => { mob.value = mob.value.replace(/[^\d\s+()-]/g, ''); if (mob.classList.contains('is-invalid')) check('mobile'); });
+    f.Model.addEventListener('change', () => check('model'));
+    $('#needChips').addEventListener('change', () => check('services'));
+    $('#leadConsent').addEventListener('change', () => check('consent'));
+
     const resetFile = () => { fileIn.value = ''; fileField.classList.remove('has-file'); fileText.textContent = t('form.photoBtn'); fileClear.hidden = true; };
     fileIn.addEventListener('change', () => {
       const file = fileIn.files[0]; if (!file) return resetFile();
@@ -309,12 +354,17 @@
       st.textContent = ''; fileField.classList.add('has-file'); fileText.textContent = `${file.name} · ${(file.size / 1024 / 1024).toFixed(1)} MB`; fileClear.hidden = false;
     });
     fileClear.addEventListener('click', resetFile);
+
     f.addEventListener('submit', e => {
       e.preventDefault();
       if (f._honey && f._honey.value) return;
-      const services = $$('#needChips input:checked').map(i => i.value);
-      if (!f.checkValidity() || !services.length) { st.className = 'lead__status err'; st.textContent = t('form.invalid'); f.reportValidity(); return; }
+      const results = ['name', 'email', 'mobile', 'model', 'services', 'consent'].map(check);
+      if (results.includes(false)) { st.className = 'lead__status err'; st.textContent = t('form.invalid'); const first = $('.is-invalid, .err.show', f); if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
       if (fileIn.files[0] && fileIn.files[0].size > maxBytes) { st.className = 'lead__status err'; st.textContent = t('form.fileTooBig'); return; }
+      const services = $$('#needChips input:checked').map(i => i.value);
+      const m = parseMobile(cc(), mob.value);
+      $('#leadMobileFull').value = fmtMobile(cc(), m.national) + ` (${cc().name})`;
+      $('#leadReplyTo').value = email.value.trim();
       $('#leadServices').value = services.join(', ');
       $('#leadLang').value = lang;
       $('#leadSubject').value = `New lead: ${f.Name.value.trim()} · ${f.Model.value} · ${services.join(', ')}`;
@@ -329,7 +379,7 @@
     rf.addEventListener('submit', async e => {
       e.preventDefault();
       const email = rf.email.value.trim();
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { rs.className = 'lead__status err'; rs.textContent = t('form.invalidEmail'); return; }
+      if (!validEmail(email)) { rs.className = 'lead__status err'; rs.textContent = t('form.invalidEmail'); return; }
       rf.querySelector('button').disabled = true;
       try { await postForm({ _subject: 'Service reminder sign-up', _template: 'table', _captcha: 'false', Email: email, Language: lang, Submitted: new Date().toISOString() }); rs.className = 'lead__status ok'; rs.textContent = t('form.okShort'); rf.reset(); }
       catch (err) { rs.className = 'lead__status err'; rs.textContent = t('form.err'); }
