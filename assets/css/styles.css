@@ -256,7 +256,8 @@ html[dir="rtl"] .hero__visual { --dir: -1; }
 .parts__signs li::before { content: ''; position: absolute; inset-inline-start: 0; top: .5em; width: .7rem; height: .7rem; border-radius: 50%; background: rgba(224,162,27,.25); border: 1px solid rgba(224,162,27,.8); }
 .parts__why { color: var(--text-2); font-size: .92rem; margin: 0; }
 .parts__detail .btn { align-self: flex-start; margin-top: auto; }
-.parts__photo { width: 100%; aspect-ratio: 16/7; object-fit: cover; border-radius: 14px; border: 1px solid var(--line); }
+.parts__photo { width: 100%; aspect-ratio: 16/7; object-fit: cover; border-radius: 14px; border: 1px solid var(--line); background: #f6f7f9; }
+.parts__photo--contain { object-fit: contain; padding: .4rem; }
 .parts__pick { display: flex; align-items: center; gap: .8rem; margin-top: .4rem; }
 .parts__pick-label { flex: none; font-size: .82rem; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
 .parts__chips { display: flex; gap: .5rem; overflow-x: auto; padding: .3rem .1rem .6rem; scrollbar-width: thin; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; mask-image: linear-gradient(90deg, #000 92%, transparent); }

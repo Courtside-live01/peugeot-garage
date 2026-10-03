@@ -128,15 +128,15 @@
     { id: 'oil',        cat: 'fluids',     x: 66, y: 40, svc: 'Oil change', photo: 'services/oil-change' },
     { id: 'tyres',      cat: 'wheels',     x: 54, y: 73, svc: 'Tyres / alignment', photo: 'parts/tyre' },
     { id: 'wipers',     cat: 'comfort',    x: 50, y: 31, svc: 'Other', photo: 'parts/wipers' },
-    { id: 'plugs',      cat: 'engine',     x: 73, y: 38, svc: 'Full service' },
-    { id: 'belts',      cat: 'engine',     x: 86, y: 52, svc: 'Full service' },
-    { id: 'fuelpump',   cat: 'engine',     x: 30, y: 58, svc: 'Diagnostics / warning light' },
-    { id: 'waterpump',  cat: 'engine',     x: 84, y: 60, svc: 'Full service' },
-    { id: 'gearbox',    cat: 'fluids',     x: 46, y: 64, svc: 'Full service' },
+    { id: 'plugs',      cat: 'engine',     x: 73, y: 38, svc: 'Full service', photo: 'parts/info/plugs', fit: 'contain' },
+    { id: 'belts',      cat: 'engine',     x: 86, y: 52, svc: 'Full service', photo: 'parts/info/belts', fit: 'contain' },
+    { id: 'fuelpump',   cat: 'engine',     x: 30, y: 58, svc: 'Diagnostics / warning light', photo: 'parts/info/fuelpump', fit: 'contain' },
+    { id: 'waterpump',  cat: 'engine',     x: 84, y: 60, svc: 'Full service', photo: 'parts/info/waterpump', fit: 'contain' },
+    { id: 'gearbox',    cat: 'fluids',     x: 46, y: 64, svc: 'Full service', photo: 'parts/info/gearbox', fit: 'contain' },
     { id: 'timing',     cat: 'engine',     x: 82, y: 44, svc: 'Timing belt', photo: 'parts/timing-belt' },
-    { id: 'ac',         cat: 'comfort',    x: 42, y: 42, svc: 'Air conditioning' },
-    { id: 'alternator', cat: 'electrical', x: 76, y: 60, svc: 'Diagnostics / warning light' },
-    { id: 'lights',     cat: 'comfort',    x: 70, y: 49, svc: 'Other' },
+    { id: 'ac',         cat: 'comfort',    x: 42, y: 42, svc: 'Air conditioning', photo: 'parts/info/ac', fit: 'contain' },
+    { id: 'alternator', cat: 'electrical', x: 76, y: 60, svc: 'Diagnostics / warning light', photo: 'parts/info/alternator', fit: 'contain' },
+    { id: 'lights',     cat: 'comfort',    x: 70, y: 49, svc: 'Other', photo: 'parts/info/lights', fit: 'contain' },
     { id: 'checkup',    cat: 'engine',     x: 36, y: 78, svc: 'Full service', photo: 'services/diagnostics' },
     { id: 'brakes',     cat: 'wheels',     x: 14, y: 66, svc: 'Brakes', photo: 'parts/brake-disc' },
     { id: 'shocks',     cat: 'wheels',     x: 20, y: 50, svc: 'Brakes', photo: 'parts/strut' },
@@ -162,7 +162,7 @@
       const el = $('#partsDetail'); el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
       el.innerHTML = `
         <div class="parts__detail-head"><span class="parts__ico">${I[id]}</span><div><div class="parts__cat">${String(n).padStart(2, '0')} · ${t('parts.cat.' + p.cat)}</div><h3>${d.name}</h3></div></div>
-        ${p.photo ? `<img class="parts__photo" src="/assets/img/${p.photo}.webp" alt="${d.name}" loading="lazy">` : ''}
+        ${p.photo ? `<img class="parts__photo${p.fit === 'contain' ? ' parts__photo--contain' : ''}" src="/assets/img/${p.photo}.webp" alt="${d.name}" loading="lazy">` : ''}
         <div><h4>${t('parts.interval')}</h4><div class="parts__pills">${pills}</div></div>
         <div><h4>${t('parts.signs')}</h4><ul class="parts__signs">${d.signs.map(x => `<li>${x}</li>`).join('')}</ul></div>
         <div><h4>${t('parts.why')}</h4><p class="parts__why">${d.why}</p></div>
