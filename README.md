@@ -27,13 +27,17 @@ Optional hardening: after activation, FormSubmit gives you a random alias for th
 ## WhatsApp delivery of leads
 Two layers, both independent of the email path:
 
-1. **One-tap copy from the customer (works today).** After submitting, the thank-you page shows "Send on WhatsApp too". It opens WhatsApp with the whole request pre-written and addressed to +971 52 515 5001. The customer taps send, and the workshop gets the lead in WhatsApp plus a direct chat with them.
-2. **Automatic message to the workshop (needs a 5-minute setup).** `api/notify.js` is a Vercel serverless function the form calls before it submits. It sends the lead to the workshop's WhatsApp through CallMeBot. Setup, done once by the owner on the phone that has +971 52 515 5001:
-   - save +34 644 71 81 99 as a contact (CallMeBot),
-   - WhatsApp it the exact text `I allow callmebot to send me messages`,
-   - it replies with an API key,
-   - in Vercel: Project → Settings → Environment Variables → `CALLMEBOT_APIKEY` = that key → redeploy.
-   Until the key is set the function returns `{ skipped: true }` and nothing else changes. It rate-limits to 5 calls per IP per 10 minutes. CallMeBot is a free third-party service; for a guaranteed business channel move this function to Twilio or the Meta WhatsApp Cloud API later.
+1. **One-tap copy from the customer (works today).** After submitting, the thank-you page shows "Send on WhatsApp too". It opens WhatsApp with the whole request pre-written and addressed to +971 52 515 5001.
+2. **Automatic message to the workshop.** `api/notify.js` is a Vercel serverless function the form calls before it submits. It needs one WhatsApp provider configured through environment variables (Vercel → Project → Settings → Environment Variables → Redeploy). Until then it returns `{ skipped: true }`. `GET /api/notify` reports which provider is active.
+
+   | Provider | Env vars | Setup effort | Notes |
+   |---|---|---|---|
+   | **GREEN-API** (recommended to start) | `GREEN_ID_INSTANCE`, `GREEN_API_TOKEN`, optional `GREEN_API_URL` | ~5 min: register at console.green-api.com, create an instance, scan the QR from WhatsApp → Linked devices on the workshop phone | Sends from the workshop's own number to itself. Unofficial WhatsApp-Web gateway; fine for low-volume self-notifications |
+   | **Meta WhatsApp Cloud API** (official) | `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_ID` | ~20 min: Meta developer app → WhatsApp → API setup → add +971 52 515 5001 as a recipient → permanent System User token | Free for messages to your own verified number |
+   | Twilio | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WHATSAPP_FROM` | Sandbox needs re-joining every 72 h; production needs an approved sender | |
+   | CallMeBot | `CALLMEBOT_APIKEY` | Free personal bot | Was full in Oct 2026 |
+
+   Optional for all: `WA_TO` (digits only; default 971525155001). The function rate-limits to 5 calls per IP per 10 minutes and times out after 8 s so it can never block the form.
 
 ## Mobile
 Below 900px a fixed bottom bar offers **Book a Service** and **WhatsApp**, the floating bubble hides, inputs are 16px to stop iOS zooming, and sections, charts and the form use tighter spacing.
