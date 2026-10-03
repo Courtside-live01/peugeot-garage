@@ -342,12 +342,12 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(.8); }
 .pill--ok { border-color: rgba(46,163,107,.5); } .pill--ok i { background: var(--ok); }
 
 /* ---------- steps ---------- */
-.steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; counter-reset: step; }
-.step { position: relative; padding: 1.5rem 1.3rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); transition: transform .4s var(--ease), border-color .3s; }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; }
+.step { position: relative; padding: 1.6rem 1.4rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); transition: transform .4s var(--ease), border-color .3s; }
 .step:hover { transform: translateY(-6px); border-color: rgba(94,161,255,.5); }
-.step__n { font-family: var(--font-head); font-weight: 800; font-size: 2rem; color: transparent; -webkit-text-stroke: 1px rgba(94,161,255,.7); display: block; margin-bottom: .6rem; }
-.step h3 { font-size: 1.1rem; }
-.step p { color: var(--text-3); font-size: .88rem; margin: 0; }
+.step__n { font-family: var(--font-head); font-weight: 800; font-size: 1.15rem; line-height: 1; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, var(--blue-2), var(--blue-deep)); box-shadow: 0 8px 20px rgba(57,135,229,.35); margin-bottom: 1rem; }
+.step h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: .4rem; }
+.step p { color: var(--text-2); font-size: .92rem; line-height: 1.55; margin: 0; }
 
 /* ---------- about / gallery ---------- */
 .about__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 3.5rem; align-items: center; }
@@ -500,7 +500,7 @@ html[dir="rtl"] .nav__links a::after { transform-origin: right; }
 /* ---------- responsive ---------- */
 @media (max-width: 1080px) {
   .services-grid { grid-template-columns: repeat(2, 1fr); }
-  .steps { grid-template-columns: repeat(3, 1fr); }
+  .steps { grid-template-columns: repeat(2, 1fr); }
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .hero__stats { grid-template-columns: repeat(2, auto); }
 }
