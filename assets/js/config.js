@@ -56,7 +56,7 @@ window.SITE = {
     { img: 'hero-408-grey',    name: '408',  color: '#9aa3ad' },
     { img: 'hero-5008-teal',   name: '5008', color: '#2a8c7a' },
   ],
-  heroIntervalMs: 2570,   // was 3600; 40% faster cycle
+  heroIntervalMs: 1840,   // 3600 -> 2570 -> 1840 (two 40% speed-ups)
 
   // Indicative figures used in the Insights charts (AED). Edit freely.
   priceComparison: {
