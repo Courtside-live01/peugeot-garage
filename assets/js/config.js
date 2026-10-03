@@ -20,14 +20,14 @@ window.SITE = {
 
   // Hero showroom rotation: model image (assets/img/models) + display colour
   heroCars: [
-    { img: '2008-blue',   name: '2008', color: '#2f7cff' },
-    { img: '3008-orange', name: '3008', color: '#e07a2a' },
-    { img: '408',         name: '408',  color: '#7bbf3a' },
-    { img: '5008-red',    name: '5008', color: '#e0453a' },
-    { img: '2008',        name: '2008', color: '#aab3bd' },
-    { img: '408-silver',  name: '408',  color: '#e6eaef' },
-    { img: '2008-yellow', name: '2008', color: '#e8b321' },
-    { img: '3008',        name: '3008', color: '#2f7cff' },
+    { img: 'hero-2008-blue',   name: '2008', color: '#2f7cff' },
+    { img: 'hero-3008-red',    name: '3008', color: '#d94a3d' },
+    { img: 'hero-408-green',   name: '408',  color: '#7bbf3a' },
+    { img: 'hero-5008-white',  name: '5008', color: '#e6eaef' },
+    { img: 'hero-2008-yellow', name: '2008', color: '#e4b422' },
+    { img: 'hero-3008-blue',   name: '3008', color: '#1f8fd6' },
+    { img: 'hero-408-grey',    name: '408',  color: '#9aa3ad' },
+    { img: 'hero-5008-teal',   name: '5008', color: '#2a8c7a' },
   ],
   heroIntervalMs: 3600,
 
