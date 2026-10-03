@@ -270,7 +270,7 @@ html[dir="rtl"] .parts__chips button { padding: .5rem .6rem .5rem .9rem; }
 .parts__nav { display: flex; gap: .4rem; margin-inline-start: auto; }
 .parts__nav button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--surface); color: #fff; display: grid; place-items: center; transition: background .2s, border-color .2s; }
 .parts__nav button:hover { background: var(--blue); border-color: var(--blue); }
-.parts__counter { font: 600 .78rem/1 var(--font-head); color: var(--text-3); letter-spacing: .08em; }
+.parts__counter { font: 600 .78rem/1 var(--font-head); color: var(--text-3); letter-spacing: .08em; white-space: nowrap; align-self: center; }
 .parts__filters { display: none; }
 .parts__filters button { padding: .5rem 1rem; border-radius: 999px; border: 1px solid var(--line-2); background: var(--surface); color: var(--text-2); font-size: .85rem; font-weight: 600; transition: all .2s; }
 .parts__filters button:hover { border-color: var(--blue-2); color: #fff; }
