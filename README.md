@@ -70,10 +70,10 @@ Eight part photos come from Wikimedia Commons / Openverse under Creative Commons
 | Part | File | Author | Licence | Source |
 |---|---|---|---|---|
 | ac | Taumelscheibenverdichter-Schnitt.JPG | Cschirp | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Taumelscheibenverdichter-Schnitt.JPG |
-| alternator | Car alternator on a workbench surrounded by various auto parts in a garage setting.jpg | <a href="//commons.wikimedia.org/wiki/User:Shixart1985" title="User:Shixart1985" | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Car_alternator_on_a_workbench_surrounded_by_various_auto_parts_in_a_garage_setting.jpg |
+| alternator | Car alternator on a workbench surrounded by various auto parts in a garage setting.jpg | Shixart1985 | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Car_alternator_on_a_workbench_surrounded_by_various_auto_parts_in_a_garage_setting.jpg |
 | belts | Keilrippenriemen Servopumpe Spannrollen VW T4 IMG 20160922 135213.jpg | H | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Keilrippenriemen_Servopumpe_Spannrollen_VW_T4_IMG_20160922_135213.jpg |
-| fuelpump | Bosch Fuel Pump 0 580 254 957-92467.jpg | <a href="https://www.wikidata.org/wiki/Q108103612" class="extiw" title="d:Q | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Bosch_Fuel_Pump_0_580_254_957-92467.jpg |
+| fuelpump | Bosch Fuel Pump 0 580 254 957-92467.jpg | Wikimedia Commons contributor (Q108103612) | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Bosch_Fuel_Pump_0_580_254_957-92467.jpg |
 | gearbox | Installiert Ölfilter in einem Automatikgetriebe IMG 6756.JPG | H | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Installiert_%C3%96lfilter_in_einem_Automatikgetriebe_IMG_6756.JPG |
 | lights | " 13 - ITALY - Alfa Romeo headlight assembly - projector black headlamp xenon - Giulietta 2013.jpg | Pava | CC BY-SA 3.0 it | https://commons.wikimedia.org/wiki/File:%22_13_-_ITALY_-_Alfa_Romeo_headlight_assembly_-_projector_black_headlamp_xenon_-_Giulietta_2013.jpg |
-| plugs | SparkPlug ILZKBR7A.jpg | <a href="//commons.wikimedia.org/w/index.php?title=User:J.skolimowski&amp;action | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:SparkPlug_ILZKBR7A.jpg |
-| waterpump | Automotive coolant pump 6C1Q-8K500-AF-3352.jpg | <a href="https://www.wikidata.org/wiki/Q108103612" class="extiw" title="d:Q | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Automotive_coolant_pump_6C1Q-8K500-AF-3352.jpg |
+| plugs | SparkPlug ILZKBR7A.jpg | J.skolimowski | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:SparkPlug_ILZKBR7A.jpg |
+| waterpump | Automotive coolant pump 6C1Q-8K500-AF-3352.jpg | Wikimedia Commons contributor (Q108103612) | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Automotive_coolant_pump_6C1Q-8K500-AF-3352.jpg |
