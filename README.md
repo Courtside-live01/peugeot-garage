@@ -5,7 +5,8 @@ Static, dependency-free site (HTML + CSS + vanilla JS + Chart.js from CDN). Depl
 ## Features
 - Dark, premium layout modelled on the reference design, Peugeot imagery throughout
 - EN / AR toggle (small pill in the nav), full RTL layout, Arabic typography (Cairo)
-- Animated hero showroom cycling eight Peugeot models in different colours (drive-in/out, light sweep, colour-matched ring), pointer tilt, 3D showroom carousel of nine Peugeot models (drag, swipe, arrows, keyboard, autoplay)
+- Animated hero showroom cycling eight Peugeot models in different colours (drive-in/out, light sweep, colour-matched ring), pointer tilt
+- "When to change car parts" guide: 16 numbered hotspots on a 3008, a detail panel (interval, warning signs, why it matters, photo, book button that pre-fills the form), category filters and a card grid; keyboard arrows move between hotspots
 - Charts (Chart.js): price vs dealer, job mix, time in workshop, and an interactive service-interval planner
 - Lead form with model picker, Chassis No, Engine No, optional registration-card photo (camera or upload), service chips, consent, honeypot; results land in **selimautocare@gmail.com**
 - Service-reminder sign-up in the footer, WhatsApp floating button, click-to-call
@@ -28,7 +29,7 @@ Optional hardening: after activation, FormSubmit gives you a random alias for th
 
 ## Editing content
 - `assets/js/config.js` — phone, WhatsApp, address, chart figures, service intervals
-- `assets/js/i18n.js` — every string in English and Arabic, plus the service cards and model list
+- `assets/js/i18n.js` — every string in English and Arabic, plus the service cards and the `parts` guide text (intervals, signs, why). Hotspot positions and categories live in `PARTS` in `assets/js/app.js`
 - `assets/img/` — all imagery (WebP, optimised). Models in `img/models`, service photos in `img/services`, part shots in `img/parts`
 
 Replace the placeholder workshop address before going live. The `heroCars` list in config.js controls which cars and colours rotate in the hero; recoloured variants (3008 orange, 5008 red, 2008 yellow, 408 silver) are derived from the originals.

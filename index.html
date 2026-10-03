@@ -29,7 +29,7 @@
 
       <nav class="nav__links" aria-label="Primary">
         <a href="#services" data-i18n="nav.services">Services</a>
-        <a href="#models" data-i18n="nav.models">Models</a>
+        <a href="#parts" data-i18n="nav.models">Parts guide</a>
         <a href="#insights" data-i18n="nav.insights">Insights</a>
         <a href="#planner" data-i18n="nav.planner">Planner</a>
         <a href="#about" data-i18n="nav.about">About</a>
@@ -48,7 +48,7 @@
     </div>
     <div class="mobile-menu" id="mobileMenu">
       <a href="#services" data-i18n="nav.services">Services</a>
-      <a href="#models" data-i18n="nav.models">Models</a>
+      <a href="#parts" data-i18n="nav.models">Parts guide</a>
       <a href="#insights" data-i18n="nav.insights">Insights</a>
       <a href="#planner" data-i18n="nav.planner">Planner</a>
       <a href="#about" data-i18n="nav.about">About</a>
@@ -177,22 +177,37 @@
     </div>
   </section>
 
-  <!-- ============ 3D SHOWROOM ============ -->
-  <section class="section showroom" id="models">
-    <div class="showroom__bg" aria-hidden="true"><img src="/assets/img/bg-claw-lights.webp" alt="" loading="lazy"></div>
+  <!-- ============ PARTS GUIDE ============ -->
+  <section class="section parts" id="parts">
+    <div class="parts__bg" aria-hidden="true"><img src="/assets/img/bg-claw-lights.webp" alt="" loading="lazy"></div>
     <div class="container">
       <div class="section__head reveal">
-        <span class="eyebrow"><span class="dot"></span><span data-i18n="models.eyebrow">3D showroom</span></span>
-        <h2 data-i18n="models.title">Every model. Passenger, SUV and commercial.</h2>
-        <p data-i18n="models.lead">Drag, swipe or use the arrows to spin the showroom. Tap a model to pre-fill your booking.</p>
+        <span class="eyebrow"><span class="dot"></span><span data-i18n="parts.eyebrow">Maintenance guide</span></span>
+        <h2 data-i18n="parts.title">When to change car parts</h2>
+        <p data-i18n="parts.lead">Small changes today, big savings tomorrow. Tap a point on the car or a card below to see the interval, the warning signs and what happens if you wait.</p>
       </div>
 
-      <div class="carousel" id="carousel" tabindex="0" aria-roledescription="carousel" aria-label="Peugeot models we service">
-        <div class="carousel__stage" id="carouselStage"></div>
-        <button class="carousel__nav carousel__nav--prev" id="carPrev" type="button" aria-label="Previous model">&#10094;</button>
-        <button class="carousel__nav carousel__nav--next" id="carNext" type="button" aria-label="Next model">&#10095;</button>
+      <div class="parts__top reveal">
+        <div class="parts__car" id="partsCar">
+          <img src="/assets/img/models/hero-3008-blue.webp" alt="Peugeot 3008 with service points marked" draggable="false">
+          <!-- hotspots injected -->
+        </div>
+        <article class="parts__detail" id="partsDetail" aria-live="polite">
+          <!-- injected -->
+        </article>
       </div>
-      <div class="carousel__caption" id="carouselCaption" aria-live="polite"></div>
+
+      <div class="parts__filters" id="partsFilters" role="tablist" aria-label="Filter parts"></div>
+      <div class="parts__grid" id="partsGrid"></div>
+
+      <div class="parts__tip reveal">
+        <span class="parts__tipbadge" data-i18n="parts.tipBadge">Expert tip</span>
+        <ul>
+          <li data-i18n="parts.tip1">Always follow your Peugeot service book; these are typical intervals, shortened for UAE heat and dust.</li>
+          <li data-i18n="parts.tip2">Use genuine or OE-quality parts for safety and performance.</li>
+          <li data-i18n="parts.tip3">Timely maintenance saves money and prevents breakdowns.</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -426,7 +441,7 @@
       <div>
         <h4 data-i18n="footer.companyH">Company</h4>
         <a href="#about" data-i18n="nav.about">About</a>
-        <a href="#models" data-i18n="nav.models">Models</a>
+        <a href="#parts" data-i18n="nav.models">Parts guide</a>
         <a href="#planner" data-i18n="nav.planner">Planner</a>
         <a href="#contact" data-i18n="nav.contact">Contact</a>
       </div>

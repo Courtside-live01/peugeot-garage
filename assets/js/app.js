@@ -32,7 +32,7 @@
     if (hero.imgs.length) { $('#heroName').textContent = (lang === 'ar' ? 'بيجو ' : 'Peugeot ') + S.heroCars[hero.i].name; }
     const lf = $('#leadForm'); if (lf && lf._fillCC) lf._fillCC();
     const ft = $('#fileText'); if (ft && !$('#fileField').classList.contains('has-file')) ft.textContent = t('form.photoBtn');
-    carousel.render();
+    parts.render();
     buildCharts();
     planner.update();
   }
@@ -60,7 +60,7 @@
 
   const serviceMap = { service: 'Full service', brakes: 'Brakes', diag: 'Diagnostics / warning light', battery: 'Battery', ac: 'Air conditioning', timing: 'Timing belt', tyres: 'Tyres / alignment', glass: 'Other' };
   function prefill({ service, model, message }) {
-    if (service) { const cb = $(`#needChips input[value="${serviceMap[service] || service}"]`); if (cb) cb.checked = true; }
+    if (service) { const cb = $(`#needChips input[value="${serviceMap[service] || service}"]`); if (cb) { cb.checked = true; cb.dispatchEvent(new Event('change', { bubbles: true })); } }
     if (model) { const sel = $('#leadModel'); const opt = Array.from(sel.options).find(o => o.textContent.includes(model)); if (opt) sel.value = opt.value; }
     if (message) { const ta = $('textarea[name="Message"]'); ta.value = (ta.value ? ta.value + '\n' : '') + message; }
   }
@@ -103,56 +103,80 @@
     });
   }
 
-  /* ---------------- 3D showroom carousel ---------------- */
-  const carousel = {
-    idx: 0, n: 0, timer: null,
+  /* ---------------- parts guide (when to change) ---------------- */
+  const I = {
+    battery: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M7 4v3M17 4v3M7 13h4M9 11v4M14 13h3"/></svg>',
+    oil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h5l1 3h3l3 4v9H5V6h3z"/><path d="M12 11c-1.6 2-2.4 3.2-2.4 4.3a2.4 2.4 0 0 0 4.8 0c0-1.1-.8-2.3-2.4-4.3z"/></svg>',
+    tyres: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3v5.5M12 15.5V21M3 12h5.5M15.5 12H21"/></svg>',
+    wipers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 17h18M12 17L7 6M12 17h0"/><path d="M4 9c4-3 12-3 16 0" stroke-dasharray="2 2"/></svg>',
+    plugs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M9 5h6v4H9zM10 9v4h4V9M11 13v4h2v-4M12 17l-2 5h4z"/></svg>',
+    belts: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="16" r="3"/><path d="M8.5 5.4l10 8M5.5 10.6l10 8"/></svg>',
+    fuelpump: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M3 21h14M7 7h6v4H7zM15 9h2l3 3v6a2 2 0 0 1-4 0v-5"/></svg>',
+    waterpump: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="1.5"/><path d="M12 6V3M18 12h3M12 18v3M6 12H3M9 9l2 2M15 9l-2 2M15 15l-2-2M9 15l2-2"/></svg>',
+    gearbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="6" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="12" cy="19" r="2"/><path d="M6 7v10M12 7v10M18 7v5H6"/></svg>',
+    timing: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="7" r="4"/><circle cx="16" cy="17" r="4"/><circle cx="8" cy="7" r="1.2"/><circle cx="16" cy="17" r="1.2"/><path d="M11.2 4.6l8 8.8M4.8 9.4l8 8.8"/></svg>',
+    ac: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v20M4 6l16 12M4 18L20 6M12 2l-2 2M12 2l2 2M12 22l-2-2M12 22l2-2"/></svg>',
+    alternator: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M13 7l-3 5h4l-3 5"/></svg>',
+    lights: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 5c5 0 8 3 8 7s-3 7-8 7a7 7 0 0 1 0-14z"/><path d="M19 8h3M19 12h3M19 16h3"/></svg>',
+    checkup: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.4 2.4-2.6-.6-.6-2.6z"/></svg>',
+    brakes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3a9 9 0 0 1 9 9" stroke-width="3"/></svg>',
+    shocks: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v3M12 19v3M8 5h8M8 19h8M9 7l6 2-6 2 6 2-6 2 6 2"/></svg>',
+  };
+  // order = numbering on the car; x/y are % positions on the 3008 image; svc = form chip to pre-tick
+  const PARTS = [
+    { id: 'battery',    cat: 'electrical', x: 58, y: 38, svc: 'Battery', photo: 'parts/battery' },
+    { id: 'oil',        cat: 'fluids',     x: 66, y: 40, svc: 'Oil change', photo: 'services/oil-change' },
+    { id: 'tyres',      cat: 'wheels',     x: 54, y: 73, svc: 'Tyres / alignment', photo: 'parts/tyre' },
+    { id: 'wipers',     cat: 'comfort',    x: 50, y: 31, svc: 'Other', photo: 'parts/wipers' },
+    { id: 'plugs',      cat: 'engine',     x: 73, y: 38, svc: 'Full service' },
+    { id: 'belts',      cat: 'engine',     x: 86, y: 52, svc: 'Full service' },
+    { id: 'fuelpump',   cat: 'engine',     x: 30, y: 58, svc: 'Diagnostics / warning light' },
+    { id: 'waterpump',  cat: 'engine',     x: 84, y: 60, svc: 'Full service' },
+    { id: 'gearbox',    cat: 'fluids',     x: 46, y: 64, svc: 'Full service' },
+    { id: 'timing',     cat: 'engine',     x: 82, y: 44, svc: 'Timing belt', photo: 'parts/timing-belt' },
+    { id: 'ac',         cat: 'comfort',    x: 42, y: 42, svc: 'Air conditioning' },
+    { id: 'alternator', cat: 'electrical', x: 76, y: 60, svc: 'Diagnostics / warning light' },
+    { id: 'lights',     cat: 'comfort',    x: 70, y: 49, svc: 'Other' },
+    { id: 'checkup',    cat: 'engine',     x: 36, y: 78, svc: 'Full service', photo: 'services/diagnostics' },
+    { id: 'brakes',     cat: 'wheels',     x: 14, y: 66, svc: 'Brakes', photo: 'parts/brake-disc' },
+    { id: 'shocks',     cat: 'wheels',     x: 20, y: 50, svc: 'Brakes', photo: 'parts/strut' },
+  ];
+  const CATS = ['engine', 'electrical', 'wheels', 'fluids', 'comfort'];
+  const parts = {
+    cur: 'oil', filter: 'all',
+    txt(id) { return (I18N[lang].parts && I18N[lang].parts[id]) || I18N.en.parts[id]; },
     render() {
-      const stage = $('#carouselStage'); if (!stage) return;
-      const models = I18N[lang].models; this.n = models.length;
-      stage.innerHTML = models.map((m, i) => `
-        <figure class="car-slide" data-i="${i}" aria-label="${m.name}">
-          <div class="car-slide__shadow"></div>
-          <img src="/assets/img/models/${m.img}.webp" alt="${m.name}" loading="lazy" draggable="false">
-        </figure>`).join('');
-      let dots = $('.carousel__dots');
-      if (!dots) { dots = document.createElement('div'); dots.className = 'carousel__dots'; $('#carouselCaption').after(dots); }
-      dots.innerHTML = models.map((m, i) => `<button type="button" data-i="${i}" aria-label="${m.name}"></button>`).join('');
-      dots.onclick = e => { const b = e.target.closest('button'); if (b) this.go(+b.dataset.i); };
-      stage.onclick = e => { const f = e.target.closest('.car-slide'); if (!f) return; const i = +f.dataset.i; if (i === this.idx) { prefill({ model: models[i].name.replace(/^(Peugeot|بيجو)\s*/, '').split(' /')[0] }); document.getElementById('contact').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' }); } else this.go(i); };
-      this.layout();
+      const car = $('#partsCar'); if (!car) return;
+      $$('.hot', car).forEach(h => h.remove());
+      PARTS.forEach((p, i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'hot'; b.dataset.id = p.id; b.dataset.tip = this.txt(p.id).name; b.style.left = p.x + '%'; b.style.top = p.y + '%'; b.textContent = i + 1; b.setAttribute('aria-label', this.txt(p.id).name); car.appendChild(b); });
+      $('#partsFilters').innerHTML = ['all', ...CATS].map(c => `<button type="button" data-cat="${c}" class="${c === this.filter ? 'on' : ''}">${c === 'all' ? t('parts.all') : t('parts.cat.' + c)}</button>`).join('');
+      $('#partsGrid').innerHTML = PARTS.map((p, i) => { const d = this.txt(p.id); const iv = [d.km, d.time].filter(Boolean).join(' · ') || t('parts.noFixed'); return `<button type="button" class="pcard" data-id="${p.id}" data-cat="${p.cat}"><span class="pcard__ico">${I[p.id]}</span><span class="pcard__n">${String(i + 1).padStart(2, '0')}</span><h3>${d.name}</h3><p>${iv}</p><small>${d.short}</small></button>`; }).join('');
+      this.select(this.cur, false); this.applyFilter();
     },
-    layout() {
-      const slides = $$('.car-slide'); const n = this.n; const radius = Math.max(420, Math.min(window.innerWidth * .55, 760));
-      slides.forEach((s, i) => {
-        let off = ((i - this.idx) % n + n) % n; if (off > n / 2) off -= n;
-        const angle = off * (360 / n);
-        const rtl = document.documentElement.dir === 'rtl' ? -1 : 1;
-        s.style.transform = `rotateY(${angle * rtl}deg) translateZ(${radius}px) rotateY(${-angle * rtl}deg) scale(${off === 0 ? 1 : .72})`;
-        s.style.opacity = Math.abs(off) > 2 ? 0 : 1;
-        s.style.zIndex = 10 - Math.abs(off);
-        s.classList.toggle('is-active', off === 0);
-        s.style.pointerEvents = Math.abs(off) > 2 ? 'none' : 'auto';
-      });
-      const m = I18N[lang].models[this.idx];
-      $('#carouselCaption').innerHTML = `<h3>${m.name}</h3><p>${m.kind}</p><a href="#contact" class="btn btn--ghost btn--sm" data-model="${m.id}">${t('models.select')}</a>`;
-      $('#carouselCaption a').onclick = () => prefill({ model: m.name.replace(/^(Peugeot|بيجو)\s*/, '').split(' /')[0] });
-      $$('.carousel__dots button').forEach((b, i) => b.classList.toggle('on', i === this.idx));
+    select(id, scroll = true) {
+      const p = PARTS.find(x => x.id === id); if (!p) return; this.cur = id; const d = this.txt(id); const n = PARTS.indexOf(p) + 1;
+      const clock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', road = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20L9 4h6l5 16M12 6v3M12 12v3M12 18v2"/></svg>';
+      const pills = [d.km ? `<span class="parts__pill">${road}${d.km}</span>` : '', d.time ? `<span class="parts__pill parts__pill--time">${clock}${d.time}</span>` : ''].join('') || `<span class="parts__pill parts__pill--time">${clock}${t('parts.noFixed')}</span>`;
+      const el = $('#partsDetail'); el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
+      el.innerHTML = `
+        <div class="parts__detail-head"><span class="parts__ico">${I[id]}</span><div><div class="parts__cat">${String(n).padStart(2, '0')} · ${t('parts.cat.' + p.cat)}</div><h3>${d.name}</h3></div></div>
+        ${p.photo ? `<img class="parts__photo" src="/assets/img/${p.photo}.webp" alt="${d.name}" loading="lazy">` : ''}
+        <div><h4>${t('parts.interval')}</h4><div class="parts__pills">${pills}</div></div>
+        <div><h4>${t('parts.signs')}</h4><ul class="parts__signs">${d.signs.map(x => `<li>${x}</li>`).join('')}</ul></div>
+        <div><h4>${t('parts.why')}</h4><p class="parts__why">${d.why}</p></div>
+        <a href="#contact" class="btn btn--primary btn--sm" data-svc="${p.svc}">${t('parts.book')}</a>`;
+      $('a[data-svc]', el).onclick = () => { prefill({ service: p.svc, message: (lang === 'ar' ? 'أرغب بفحص: ' : 'I would like a check of: ') + d.name }); };
+      $$('.hot').forEach(h => h.classList.toggle('on', h.dataset.id === id));
+      $$('.pcard').forEach(c => c.classList.toggle('on', c.dataset.id === id));
+      if (scroll && window.innerWidth < 900) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
     },
-    go(i) { this.idx = ((i % this.n) + this.n) % this.n; this.layout(); this.restart(); },
-    next() { this.go(this.idx + 1); }, prev() { this.go(this.idx - 1); },
-    restart() { clearInterval(this.timer); if (!reduceMotion) this.timer = setInterval(() => this.next(), 4500); },
+    applyFilter() { $$('.pcard').forEach(c => c.classList.toggle('hide', this.filter !== 'all' && c.dataset.cat !== this.filter)); $$('.hot').forEach(h => { const p = PARTS.find(x => x.id === h.dataset.id); h.style.opacity = this.filter === 'all' || p.cat === this.filter ? '' : '.25'; }); $$('#partsFilters button').forEach(b => b.classList.toggle('on', b.dataset.cat === this.filter)); },
     init() {
-      const el = $('#carousel'); if (!el) return;
-      $('#carNext').onclick = () => this.next(); $('#carPrev').onclick = () => this.prev();
-      el.addEventListener('keydown', e => { if (e.key === 'ArrowRight') this.next(); if (e.key === 'ArrowLeft') this.prev(); });
-      let sx = null, moved = false;
-      el.addEventListener('pointerdown', e => { sx = e.clientX; moved = false; });
-      el.addEventListener('pointermove', e => { if (sx === null) return; const dx = e.clientX - sx; if (Math.abs(dx) > 60) { moved = true; dx < 0 ? this.next() : this.prev(); sx = e.clientX; } });
-      el.addEventListener('pointerup', () => { sx = null; }); el.addEventListener('pointercancel', () => { sx = null; });
-      el.addEventListener('click', e => { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
-      el.addEventListener('mouseenter', () => clearInterval(this.timer)); el.addEventListener('mouseleave', () => this.restart());
-      window.addEventListener('resize', () => this.layout());
-      this.restart();
+      if (!$('#partsCar')) return;
+      $('#partsCar').addEventListener('click', e => { const h = e.target.closest('.hot'); if (h) this.select(h.dataset.id); });
+      $('#partsGrid').addEventListener('click', e => { const c = e.target.closest('.pcard'); if (c) this.select(c.dataset.id); });
+      $('#partsFilters').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { this.filter = b.dataset.cat; this.applyFilter(); } });
+      $('#partsCar').addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const i = PARTS.findIndex(p => p.id === this.cur); const n = (i + (e.key === 'ArrowRight' ? 1 : -1) + PARTS.length) % PARTS.length; this.select(PARTS[n].id); $(`.hot[data-id="${PARTS[n].id}"]`).focus(); e.preventDefault(); } });
     },
   };
 
@@ -391,7 +415,7 @@
   function boot() {
     applyConfig();
     hero.init();
-    carousel.init();
+    parts.init();
     planner.init();
     initNav();
     initLeadForm();
