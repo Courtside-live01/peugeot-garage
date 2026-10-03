@@ -204,6 +204,7 @@
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-40% 0px -55% 0px' });
     secs.forEach(s => io.observe(s));
     $('#langToggle').onclick = () => setLang(lang === 'en' ? 'ar' : 'en');
+    $$('a[href="#top"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }); if (history.replaceState) history.replaceState(null, '', location.pathname + location.search); }));
   }
 
   /* ---------------- charts ---------------- */
