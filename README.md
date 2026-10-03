@@ -6,7 +6,7 @@ Static, dependency-free site (HTML + CSS + vanilla JS + Chart.js from CDN). Depl
 - Dark, premium layout modelled on the reference design, Peugeot imagery throughout
 - EN / AR toggle (small pill in the nav), full RTL layout, Arabic typography (Cairo)
 - Animated hero showroom cycling eight Peugeot models in different colours (drive-in/out, light sweep, colour-matched ring), pointer tilt
-- "When to change car parts" guide: 16 numbered hotspots on a 3008, a detail panel (interval, warning signs, why it matters, photo, book button that pre-fills the form), category filters and a card grid; keyboard arrows move between hotspots
+- "When to change car parts" guide: 16 numbered hotspots on a 3008, a detail panel (interval, warning signs, why it matters, photo, book button that pre-fills the form), a scrollable part picker with previous/next and a counter; keyboard arrows move between hotspots
 - Charts (Chart.js): price vs dealer, job mix, time in workshop, and an interactive service-interval planner
 - Lead form with model picker, Chassis No, Engine No, optional registration-card photo (camera or upload), service chips, consent, honeypot; results land in **selimautocare@gmail.com**
 - Service-reminder sign-up in the footer, WhatsApp floating button, click-to-call
@@ -24,8 +24,22 @@ WhatsApp: all WhatsApp links and the floating button use `phoneE164` in `assets/
 
 Optional hardening: after activation, FormSubmit gives you a random alias for the address (e.g. `https://formsubmit.co/ajax/abc123…`). Paste it into `formEndpoint` in `assets/js/config.js` so the raw email is not visible in page source.
 
+## WhatsApp delivery of leads
+Two layers, both independent of the email path:
+
+1. **One-tap copy from the customer (works today).** After submitting, the thank-you page shows "Send on WhatsApp too". It opens WhatsApp with the whole request pre-written and addressed to +971 52 515 5001. The customer taps send, and the workshop gets the lead in WhatsApp plus a direct chat with them.
+2. **Automatic message to the workshop (needs a 5-minute setup).** `api/notify.js` is a Vercel serverless function the form calls before it submits. It sends the lead to the workshop's WhatsApp through CallMeBot. Setup, done once by the owner on the phone that has +971 52 515 5001:
+   - save +34 644 71 81 99 as a contact (CallMeBot),
+   - WhatsApp it the exact text `I allow callmebot to send me messages`,
+   - it replies with an API key,
+   - in Vercel: Project → Settings → Environment Variables → `CALLMEBOT_APIKEY` = that key → redeploy.
+   Until the key is set the function returns `{ skipped: true }` and nothing else changes. It rate-limits to 5 calls per IP per 10 minutes. CallMeBot is a free third-party service; for a guaranteed business channel move this function to Twilio or the Meta WhatsApp Cloud API later.
+
+## Mobile
+Below 900px a fixed bottom bar offers **Book a Service** and **WhatsApp**, the floating bubble hides, inputs are 16px to stop iOS zooming, and sections, charts and the form use tighter spacing.
+
 ## Logo
-`assets/img/logo.webp` is the Mohammed Selim Absar Auto Repair Workshop sign cut out of its dark plate so it sits on the navy theme; `assets/img/logo.png` is the full-resolution master. `assets/favicon.svg` is a gold SA monogram.
+`assets/img/logo.webp` is the Mohammed Selim Absar Auto Repair Workshop sign cut out of its dark plate, with the gold lettering recoloured to the site's blue gradient; `assets/img/logo.png` is the original-colour master and `assets/img/logo-blue.png` the recoloured master. The nav logo fades in on load and glows with a light sweep on hover. `assets/favicon.svg` is a gold SA monogram.
 
 ## Editing content
 - `assets/js/config.js` — phone, WhatsApp, address, chart figures, service intervals

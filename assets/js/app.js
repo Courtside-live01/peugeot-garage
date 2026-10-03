@@ -12,7 +12,7 @@
   /* ---------------- contact details from config ---------------- */
   function applyConfig() {
     const wa = `https://wa.me/${S.phoneE164.replace(/[^\d]/g, '')}?text=${encodeURIComponent(S.whatsappText)}`;
-    $('#waLink').href = wa; $('#waFab').href = wa;
+    $('#waLink').href = wa; $('#waFab').href = wa; const wb = $('#waBar'); if (wb) wb.href = wa;
     const pl = $('#phoneLink'); if (pl) { pl.href = `tel:${S.phoneE164}`; pl.textContent = S.phoneDisplay; }
     $('#year').textContent = new Date().getFullYear();
   }
@@ -149,9 +149,11 @@
       const car = $('#partsCar'); if (!car) return;
       $$('.hot', car).forEach(h => h.remove());
       PARTS.forEach((p, i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'hot'; b.dataset.id = p.id; b.dataset.tip = this.txt(p.id).name; b.style.left = p.x + '%'; b.style.top = p.y + '%'; b.textContent = i + 1; b.setAttribute('aria-label', this.txt(p.id).name); car.appendChild(b); });
-      $('#partsFilters').innerHTML = ['all', ...CATS].map(c => `<button type="button" data-cat="${c}" class="${c === this.filter ? 'on' : ''}">${c === 'all' ? t('parts.all') : t('parts.cat.' + c)}</button>`).join('');
-      $('#partsGrid').innerHTML = PARTS.map((p, i) => { const d = this.txt(p.id); const iv = [d.km, d.time].filter(Boolean).join(' · ') || t('parts.noFixed'); return `<button type="button" class="pcard" data-id="${p.id}" data-cat="${p.cat}"><span class="pcard__ico">${I[p.id]}</span><span class="pcard__n">${String(i + 1).padStart(2, '0')}</span><h3>${d.name}</h3><p>${iv}</p><small>${d.short}</small></button>`; }).join('');
-      this.select(this.cur, false); this.applyFilter();
+      const chips = $('#partsChips');
+      chips.innerHTML = PARTS.map((p, i) => `<button type="button" data-id="${p.id}"><i>${i + 1}</i>${this.txt(p.id).name}</button>`).join('');
+      let nav = $('.parts__nav'); if (!nav) { nav = document.createElement('div'); nav.className = 'parts__nav'; $('.parts__pick').appendChild(nav); }
+      nav.innerHTML = `<span class="parts__counter" id="partsCounter"></span><button type="button" data-step="-1" aria-label="${t('parts.prev')}">${document.documentElement.dir === 'rtl' ? '&#10095;' : '&#10094;'}</button><button type="button" data-step="1" aria-label="${t('parts.next')}">${document.documentElement.dir === 'rtl' ? '&#10094;' : '&#10095;'}</button>`;
+      this.select(this.cur, false);
     },
     select(id, scroll = true) {
       const p = PARTS.find(x => x.id === id); if (!p) return; this.cur = id; const d = this.txt(id); const n = PARTS.indexOf(p) + 1;
@@ -167,15 +169,15 @@
         <a href="#contact" class="btn btn--primary btn--sm" data-svc="${p.svc}">${t('parts.book')}</a>`;
       $('a[data-svc]', el).onclick = () => { prefill({ service: p.svc, message: (lang === 'ar' ? 'أرغب بفحص: ' : 'I would like a check of: ') + d.name }); };
       $$('.hot').forEach(h => h.classList.toggle('on', h.dataset.id === id));
-      $$('.pcard').forEach(c => c.classList.toggle('on', c.dataset.id === id));
+      $$('#partsChips button').forEach(c => { const on = c.dataset.id === id; c.classList.toggle('on', on); if (on && scroll) c.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'center' }); });
+      const ctr = $('#partsCounter'); if (ctr) ctr.textContent = `${String(n).padStart(2, '0')} / ${PARTS.length}`;
       if (scroll && window.innerWidth < 900) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
     },
-    applyFilter() { $$('.pcard').forEach(c => c.classList.toggle('hide', this.filter !== 'all' && c.dataset.cat !== this.filter)); $$('.hot').forEach(h => { const p = PARTS.find(x => x.id === h.dataset.id); h.style.opacity = this.filter === 'all' || p.cat === this.filter ? '' : '.25'; }); $$('#partsFilters button').forEach(b => b.classList.toggle('on', b.dataset.cat === this.filter)); },
     init() {
       if (!$('#partsCar')) return;
       $('#partsCar').addEventListener('click', e => { const h = e.target.closest('.hot'); if (h) this.select(h.dataset.id); });
-      $('#partsGrid').addEventListener('click', e => { const c = e.target.closest('.pcard'); if (c) this.select(c.dataset.id); });
-      $('#partsFilters').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { this.filter = b.dataset.cat; this.applyFilter(); } });
+      $('#partsChips').addEventListener('click', e => { const c = e.target.closest('button'); if (c) this.select(c.dataset.id); });
+      $('.parts__pick').addEventListener('click', e => { const b = e.target.closest('[data-step]'); if (!b) return; const i = PARTS.findIndex(p => p.id === this.cur); this.select(PARTS[(i + (+b.dataset.step) + PARTS.length) % PARTS.length].id); });
       $('#partsCar').addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const i = PARTS.findIndex(p => p.id === this.cur); const n = (i + (e.key === 'ArrowRight' ? 1 : -1) + PARTS.length) % PARTS.length; this.select(PARTS[n].id); $(`.hot[data-id="${PARTS[n].id}"]`).focus(); e.preventDefault(); } });
     },
   };
@@ -394,6 +396,10 @@
       $('#leadSubject').value = `New lead: ${f.Name.value.trim()} · ${f.Model.value} · ${services.join(', ')}`;
       const base = S.thanksUrl || (location.origin + '/thanks');
       $('#leadNext').value = base + (lang === 'ar' ? '?lang=ar' : '');
+      const lead = { at: Date.now(), name: f.Name.value.trim(), mobile: fmtMobile(cc(), m.national), email: email.value.trim(), model: f.Model.value, services: services.join(', '), chassis: f['Chassis No'].value.trim(), engine: f['Engine No'].value.trim(), message: f.Message.value.trim(), lang };
+      try { sessionStorage.setItem('sac-lead', JSON.stringify(lead)); } catch (err) {}
+      // WhatsApp notification to the workshop (serverless; needs CALLMEBOT_APIKEY on Vercel, silently skipped otherwise)
+      try { fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead), keepalive: true }).catch(() => {}); } catch (err) {}
       if (!fileIn.files.length) fileIn.disabled = true; // do not send an empty attachment field
       btn.disabled = true; btn.firstElementChild.textContent = t('form.sending'); st.className = 'lead__status'; st.textContent = '';
       f.submit(); // native multipart POST to FormSubmit, which redirects to /thanks

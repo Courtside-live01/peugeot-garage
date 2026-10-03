@@ -2,7 +2,7 @@
 window.I18N = {
   en: {
     'brand.tag': 'Peugeot Specialists',
-    'nav.services': 'Services', 'nav.models': 'Parts guide', 'nav.insights': 'Insights', 'nav.planner': 'Planner', 'nav.about': 'About', 'nav.contact': 'Contact', 'nav.cta': 'Book a Service',
+    'nav.services': 'Services', 'nav.models': 'Parts guide', 'nav.insights': 'Insights', 'nav.planner': 'Planner', 'nav.about': 'About', 'nav.contact': 'Contact', 'nav.cta': 'Book a Service', 'mbar.wa': 'WhatsApp',
     'hero.eyebrow': 'Independent Peugeot specialist workshop',
     'hero.title1': 'Expert care for', 'hero.title2': 'your Peugeot.',
     'hero.lead': 'Dealer-level diagnostics, genuine-quality parts and transparent pricing, without the dealer waiting list. From the 208 to the 5008, Partner to Boxer, we know every lion inside out.',
@@ -28,7 +28,7 @@ window.I18N = {
     'parts.eyebrow': 'Maintenance guide', 'parts.title': 'When to change car parts',
     'parts.lead': 'Small changes today, big savings tomorrow. Tap a point on the car or a card below to see the interval, the warning signs and what happens if you wait.',
     'parts.tipBadge': 'Expert tip', 'parts.tip1': 'Always follow your Peugeot service book; these are typical intervals, shortened for UAE heat and dust.', 'parts.tip2': 'Use genuine or OE-quality parts for safety and performance.', 'parts.tip3': 'Timely maintenance saves money and prevents breakdowns.',
-    'parts.signs': 'Signs to watch', 'parts.why': 'Why it matters', 'parts.interval': 'Typical interval', 'parts.book': 'Book this check', 'parts.all': 'All', 'parts.noFixed': 'No fixed interval',
+    'parts.pick': 'Or pick a part:', 'parts.prev': 'Previous part', 'parts.next': 'Next part', 'parts.signs': 'Signs to watch', 'parts.why': 'Why it matters', 'parts.interval': 'Typical interval', 'parts.book': 'Book this check', 'parts.all': 'All', 'parts.noFixed': 'No fixed interval',
     'parts.cat.engine': 'Engine', 'parts.cat.electrical': 'Electrical', 'parts.cat.wheels': 'Wheels & brakes', 'parts.cat.fluids': 'Fluids', 'parts.cat.comfort': 'Comfort & visibility',
     parts: {
       battery: { name: 'Battery', km: '', time: '2–4 years', short: 'Slow starts? It might be time for a new one.', signs: ['Slow or hesitant cranking', 'Dim lights at idle', 'Stop-start no longer working', 'Battery warning on the i-Cockpit'], why: 'UAE heat halves battery life. A weak battery stresses the alternator and can lock the BSI electronics. We fit AGM or EFB and register it to the car.' },
@@ -80,7 +80,7 @@ window.I18N = {
     'contact.phone': 'Phone & WhatsApp', 'contact.email': 'Email', 'contact.address': 'Workshop', 'contact.addressV': 'Industrial Area, United Arab Emirates', 'contact.hours': 'Hours', 'contact.hoursV': 'Sat to Thu 8:00 to 20:00, Fri 14:00 to 20:00', 'contact.wa': 'Chat on WhatsApp',
     'form.errName': 'Please enter your name.', 'form.errEmail': 'Please enter a valid email address, like name@example.com.', 'form.errMobile': 'Enter a valid mobile number for the selected country.', 'form.errMobileUae': 'UAE mobiles have 9 digits and start with 5, for example 50 123 4567.', 'form.errModel': 'Please choose your Peugeot model.', 'form.errServices': 'Pick at least one service.', 'form.errConsent': 'Please tick the box so we can contact you.',
     'form.chassis': 'Chassis No', 'form.engine': 'Engine No', 'form.photo': 'Or add a photo of your registration card (optional)', 'form.photoBtn': 'Take a photo or upload', 'form.photoHint': 'JPG, PNG or PDF, up to 10 MB', 'form.fileTooBig': 'That file is larger than 10 MB. Please choose a smaller photo.',
-    'thanks.title': 'Request received', 'thanks.text': 'Thank you. A technician will contact you on WhatsApp or by phone within one working hour.', 'thanks.home': 'Back to the site',
+    'thanks.title': 'Request received', 'thanks.text': 'Thank you. A technician will contact you on WhatsApp or by phone within one working hour.', 'thanks.home': 'Back to the site', 'thanks.wa': 'Send on WhatsApp too', 'thanks.waHint': 'Want the fastest reply? Send the same request to our WhatsApp with one tap. The message is already written for you.',
     'form.name': 'Full name *', 'form.namePh': 'Ahmed Al Mansoori', 'form.phone': 'Mobile *', 'form.email': 'Email *', 'form.emailPh': 'Email', 'form.plate': 'Plate / VIN (optional)', 'form.platePh': 'AD 12345',
     'form.model': 'Peugeot model *', 'form.modelPh': 'Select model', 'form.modelOther': 'Other / older model', 'form.year': 'Year', 'form.need': 'What do you need? *',
     'form.n1': 'Full service', 'form.n2': 'Oil change', 'form.n3': 'Brakes', 'form.n4': 'Warning light', 'form.n5': 'A/C', 'form.n6': 'Battery', 'form.n7': 'Tyres', 'form.n8': 'Timing belt', 'form.n9': 'Pre-purchase check', 'form.n10': 'Other',
@@ -121,7 +121,7 @@ window.I18N = {
 
   ar: {
     'brand.tag': 'متخصصون في بيجو',
-    'nav.services': 'الخدمات', 'nav.models': 'دليل القطع', 'nav.insights': 'أرقام', 'nav.planner': 'المخطط', 'nav.about': 'من نحن', 'nav.contact': 'اتصل بنا', 'nav.cta': 'احجز خدمة',
+    'nav.services': 'الخدمات', 'nav.models': 'دليل القطع', 'nav.insights': 'أرقام', 'nav.planner': 'المخطط', 'nav.about': 'من نحن', 'nav.contact': 'اتصل بنا', 'nav.cta': 'احجز خدمة', 'mbar.wa': 'واتساب',
     'hero.eyebrow': 'ورشة مستقلة متخصصة في سيارات بيجو',
     'hero.title1': 'عناية الخبراء', 'hero.title2': 'لسيارتك بيجو.',
     'hero.lead': 'تشخيص بمستوى الوكالة، قطع غيار بجودة أصلية وأسعار شفافة، من دون قوائم انتظار الوكالة. من 208 إلى 5008 ومن بارتنر إلى بوكسر، نعرف كل أسد من الداخل والخارج.',
@@ -147,7 +147,7 @@ window.I18N = {
     'parts.eyebrow': 'دليل الصيانة', 'parts.title': 'متى تغيّر قطع السيارة',
     'parts.lead': 'تغييرات صغيرة اليوم، توفير كبير غداً. اضغط على نقطة في السيارة أو على بطاقة بالأسفل لترى الفترة وعلامات التحذير وما يحدث إذا انتظرت.',
     'parts.tipBadge': 'نصيحة الخبراء', 'parts.tip1': 'اتبع دائماً دفتر صيانة بيجو؛ هذه فترات نموذجية مقصّرة بسبب حرارة وغبار الإمارات.', 'parts.tip2': 'استخدم قطعاً أصلية أو بجودة المصنع من أجل السلامة والأداء.', 'parts.tip3': 'الصيانة في وقتها توفر المال وتمنع الأعطال.',
-    'parts.signs': 'علامات يجب الانتباه لها', 'parts.why': 'لماذا هذا مهم', 'parts.interval': 'الفترة المعتادة', 'parts.book': 'احجز هذا الفحص', 'parts.all': 'الكل', 'parts.noFixed': 'لا توجد فترة محددة',
+    'parts.pick': 'أو اختر قطعة:', 'parts.prev': 'القطعة السابقة', 'parts.next': 'القطعة التالية', 'parts.signs': 'علامات يجب الانتباه لها', 'parts.why': 'لماذا هذا مهم', 'parts.interval': 'الفترة المعتادة', 'parts.book': 'احجز هذا الفحص', 'parts.all': 'الكل', 'parts.noFixed': 'لا توجد فترة محددة',
     'parts.cat.engine': 'المحرك', 'parts.cat.electrical': 'الكهرباء', 'parts.cat.wheels': 'العجلات والفرامل', 'parts.cat.fluids': 'السوائل', 'parts.cat.comfort': 'الراحة والرؤية',
     parts: {
       battery: { name: 'البطارية', km: '', time: '2–4 سنوات', short: 'تشغيل بطيء؟ قد يكون وقت بطارية جديدة.', signs: ['دوران بطيء أو متردد عند التشغيل', 'إضاءة خافتة أثناء التوقف', 'توقف عمل نظام الإيقاف والتشغيل', 'تحذير البطارية في الشاشة'], why: 'حرارة الإمارات تقلّص عمر البطارية إلى النصف. البطارية الضعيفة تجهد الدينامو وقد تعطّل إلكترونيات BSI. نركّب AGM أو EFB ونسجلها في السيارة.' },
@@ -199,7 +199,7 @@ window.I18N = {
     'contact.phone': 'الهاتف وواتساب', 'contact.email': 'البريد الإلكتروني', 'contact.address': 'الورشة', 'contact.addressV': 'المنطقة الصناعية، الإمارات العربية المتحدة', 'contact.hours': 'ساعات العمل', 'contact.hoursV': 'السبت إلى الخميس 8:00 إلى 20:00، الجمعة 14:00 إلى 20:00', 'contact.wa': 'تواصل عبر واتساب',
     'form.errName': 'يرجى إدخال اسمك.', 'form.errEmail': 'يرجى إدخال بريد إلكتروني صحيح مثل name@example.com.', 'form.errMobile': 'أدخل رقم جوال صحيحاً للدولة المختارة.', 'form.errMobileUae': 'أرقام الجوال في الإمارات مكونة من 9 أرقام وتبدأ بـ 5، مثل 50 123 4567.', 'form.errModel': 'يرجى اختيار موديل بيجو.', 'form.errServices': 'اختر خدمة واحدة على الأقل.', 'form.errConsent': 'يرجى تحديد المربع حتى نتمكن من التواصل معك.',
     'form.chassis': 'رقم الشاصي', 'form.engine': 'رقم المحرك', 'form.photo': 'أو أضف صورة بطاقة الملكية (اختياري)', 'form.photoBtn': 'التقط صورة أو ارفع ملفاً', 'form.photoHint': 'JPG أو PNG أو PDF، بحد أقصى 10 ميغابايت', 'form.fileTooBig': 'حجم الملف أكبر من 10 ميغابايت. يرجى اختيار صورة أصغر.',
-    'thanks.title': 'تم استلام طلبك', 'thanks.text': 'شكراً لك. سيتواصل معك فني عبر واتساب أو الهاتف خلال ساعة عمل واحدة.', 'thanks.home': 'العودة إلى الموقع',
+    'thanks.title': 'تم استلام طلبك', 'thanks.text': 'شكراً لك. سيتواصل معك فني عبر واتساب أو الهاتف خلال ساعة عمل واحدة.', 'thanks.home': 'العودة إلى الموقع', 'thanks.wa': 'أرسل عبر واتساب أيضاً', 'thanks.waHint': 'تريد أسرع رد؟ أرسل الطلب نفسه إلى واتساب الورشة بضغطة واحدة. الرسالة جاهزة مسبقاً.',
     'form.name': 'الاسم الكامل *', 'form.namePh': 'أحمد المنصوري', 'form.phone': 'الجوال *', 'form.email': 'البريد الإلكتروني *', 'form.emailPh': 'البريد الإلكتروني', 'form.plate': 'رقم اللوحة / VIN (اختياري)', 'form.platePh': 'أبوظبي 12345',
     'form.model': 'موديل بيجو *', 'form.modelPh': 'اختر الموديل', 'form.modelOther': 'موديل آخر / أقدم', 'form.year': 'السنة', 'form.need': 'ما الذي تحتاجه؟ *',
     'form.n1': 'خدمة كاملة', 'form.n2': 'تغيير زيت', 'form.n3': 'فرامل', 'form.n4': 'لمبة تحذير', 'form.n5': 'مكيف', 'form.n6': 'بطارية', 'form.n7': 'إطارات', 'form.n8': 'سير التوقيت', 'form.n9': 'فحص قبل الشراء', 'form.n10': 'أخرى',
