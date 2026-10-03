@@ -238,7 +238,7 @@ html[dir="rtl"] .hero__visual { --dir: -1; }
 .hot[data-tip]::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(4px); white-space: nowrap; background: #0f1526; border: 1px solid var(--line-2); color: #fff; font: 600 .74rem/1 var(--font-body); padding: .4rem .6rem; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
 .hot:hover::after, .hot:focus-visible::after { opacity: 1; transform: translateX(-50%); }
 @keyframes hotPulse { 0% { transform: scale(.7); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
-.parts__detail { background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04)); border: 1px solid var(--line-2); border-radius: 22px; padding: 1.6rem; box-shadow: var(--shadow); min-height: 420px; display: flex; flex-direction: column; gap: .9rem; animation: detailIn .45s var(--ease); }
+.parts__detail { background: linear-gradient(180deg, rgba(18,26,48,.94), rgba(11,16,32,.96)); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.2); border-radius: 22px; padding: 1.6rem; box-shadow: var(--shadow); min-height: 420px; display: flex; flex-direction: column; gap: .9rem; animation: detailIn .45s var(--ease); }
 @keyframes detailIn { from { opacity: 0; transform: translateY(10px); } }
 .parts__detail-head { display: flex; align-items: center; gap: .9rem; }
 .parts__ico { width: 54px; height: 54px; flex: none; border-radius: 16px; display: grid; place-items: center; background: rgba(57,135,229,.16); border: 1px solid rgba(94,161,255,.4); color: var(--blue-2); }
