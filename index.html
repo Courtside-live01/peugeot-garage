@@ -93,20 +93,14 @@
         </ul>
       </div>
 
-      <div class="hero__visual reveal" data-tilt data-tilt-max="14">
-        <div class="car3d">
+      <div class="hero__visual reveal" data-tilt data-tilt-max="10">
+        <div class="car3d" id="heroStage" style="--car:#3987e5">
           <div class="car3d__ring" aria-hidden="true"></div>
           <div class="car3d__floor" aria-hidden="true"></div>
-          <img src="/assets/img/models/2008-blue.webp" alt="Peugeot 2008 in blue, three-quarter view" class="car3d__img" data-depth="40">
-          <div class="car3d__badge car3d__badge--a" data-depth="80">
-            <span class="car3d__badge-k" data-i18n="hero.badge1k">Diagnostics</span>
-            <span class="car3d__badge-v" data-i18n="hero.badge1v">Peugeot-specific tooling</span>
-          </div>
-          <div class="car3d__badge car3d__badge--b" data-depth="60">
-            <span class="car3d__badge-k" data-i18n="hero.badge2k">Same-day</span>
-            <span class="car3d__badge-v" data-i18n="hero.badge2v">Service &amp; oil change</span>
-          </div>
+          <div class="car3d__sweep" aria-hidden="true"></div>
+          <!-- car slides injected by app.js -->
         </div>
+        <div class="car3d__caption" id="heroCaption" aria-live="polite"></div>
       </div>
     </div>
 
@@ -321,7 +315,6 @@
           <p data-i18n="about.p1">Selim Auto Care started with one promise: treat every car the way we treat our own. We are an independent garage, not a dealer, which means dealer-level knowledge with neighbourhood-level care and prices.</p>
           <p data-i18n="about.p2">Our technicians are trained on Peugeot platforms from the 206 era to the latest e-3008, and our workshop is equipped for everything from a 15-minute oil top-up to a full engine rebuild.</p>
           <div class="about__facts">
-            <div><strong data-i18n="about.fact1k">Open</strong><span data-i18n="about.fact1v">Sat to Thu, 8:00 to 20:00</span></div>
             <div><strong data-i18n="about.fact2k">Languages</strong><span data-i18n="about.fact2v">English, Arabic, Urdu, French</span></div>
             <div><strong data-i18n="about.fact3k">Fleet</strong><span data-i18n="about.fact3v">Partner, Expert and Boxer fleet contracts</span></div>
           </div>
@@ -345,56 +338,60 @@
         <h2 data-i18n="contact.title">Tell us about your Peugeot. We reply within one working hour.</h2>
         <p data-i18n="contact.lead">Fill in the form and a technician, not a call centre, will come back to you with a price and the earliest slot.</p>
         <ul class="contact__list">
-          <li><span class="contact__ico">&#9742;</span><div><strong data-i18n="contact.phone">Phone &amp; WhatsApp</strong><a id="phoneLink" class="ltr" href="tel:+971000000000">+971 00 000 0000</a></div></li>
           <li><span class="contact__ico">&#9993;</span><div><strong data-i18n="contact.email">Email</strong><a class="ltr" href="mailto:selimautocare@gmail.com">selimautocare@gmail.com</a></div></li>
           <li><span class="contact__ico">&#9679;</span><div><strong data-i18n="contact.address">Workshop</strong><span id="addressText" data-i18n="contact.addressV">Industrial Area, United Arab Emirates</span></div></li>
-          <li><span class="contact__ico">&#9200;</span><div><strong data-i18n="contact.hours">Hours</strong><span data-i18n="contact.hoursV">Sat to Thu 8:00 to 20:00, Fri 14:00 to 20:00</span></div></li>
         </ul>
-        <a id="waLink" class="btn btn--wa" href="https://wa.me/971000000000?text=Hi%20Selim%20Auto%20Care" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 12 12 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg><span data-i18n="contact.wa">Chat on WhatsApp</span></a>
+        <a id="waLink" class="btn btn--wa" href="https://wa.me/971525155001?text=Hi%20Selim%20Auto%20Care" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 12 12 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg><span data-i18n="contact.wa">Chat on WhatsApp</span></a>
       </div>
 
-      <form class="lead reveal" id="leadForm" novalidate>
+      <form class="lead reveal" id="leadForm" action="https://formsubmit.co/selimautocare@gmail.com" method="POST" enctype="multipart/form-data" novalidate>
+        <input type="hidden" name="_subject" id="leadSubject" value="New lead from selimautocare website">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" id="leadNext" value="https://selim-auto-care.vercel.app/thanks">
+        <input type="hidden" name="Services" id="leadServices" value="">
+        <input type="hidden" name="Language" id="leadLang" value="en">
         <div class="lead__row">
-          <label><span data-i18n="form.name">Full name *</span><input type="text" name="name" autocomplete="name" required placeholder="Ahmed Al Mansoori" data-i18n-ph="form.namePh"></label>
-          <label><span data-i18n="form.phone">Mobile *</span><input type="tel" name="phone" autocomplete="tel" required placeholder="+971 50 123 4567" inputmode="tel"></label>
+          <label><span data-i18n="form.name">Full name *</span><input type="text" name="Name" autocomplete="name" required placeholder="Ahmed Al Mansoori" data-i18n-ph="form.namePh"></label>
+          <label><span data-i18n="form.phone">Mobile *</span><input type="tel" name="Mobile" autocomplete="tel" required placeholder="+971 50 123 4567" inputmode="tel"></label>
         </div>
+        <label class="lead__full"><span data-i18n="form.model">Peugeot model *</span>
+          <select name="Model" id="leadModel" required>
+            <option value="" data-i18n="form.modelPh">Select model</option>
+            <option>208 / e-208</option><option>2008 / e-2008</option><option>301</option><option>308</option><option>3008</option><option>408</option><option>5008</option><option>508</option><option>Partner</option><option>Rifter</option><option>Expert</option><option>Traveller</option><option>Boxer</option><option>Landtrek</option><option value="Other" data-i18n="form.modelOther">Other / older model</option>
+          </select>
+        </label>
         <div class="lead__row">
-          <label><span data-i18n="form.email">Email</span><input type="email" name="email" autocomplete="email" placeholder="you@example.com"></label>
-          <label><span data-i18n="form.plate">Plate / VIN (optional)</span><input type="text" name="plate" placeholder="AD 12345" data-i18n-ph="form.platePh"></label>
+          <label><span data-i18n="form.chassis">Chassis No</span><input type="text" name="Chassis No" placeholder="VF3…" autocomplete="off" spellcheck="false"></label>
+          <label><span data-i18n="form.engine">Engine No</span><input type="text" name="Engine No" autocomplete="off" spellcheck="false"></label>
         </div>
-        <div class="lead__row">
-          <label><span data-i18n="form.model">Peugeot model *</span>
-            <select name="model" id="leadModel" required>
-              <option value="" data-i18n="form.modelPh">Select model</option>
-              <option>208 / e-208</option><option>2008 / e-2008</option><option>301</option><option>308</option><option>3008</option><option>408</option><option>5008</option><option>508</option><option>Partner</option><option>Rifter</option><option>Expert</option><option>Traveller</option><option>Boxer</option><option>Landtrek</option><option value="other" data-i18n="form.modelOther">Other / older model</option>
-            </select>
+        <div class="file" id="fileField">
+          <span class="file__label" data-i18n="form.photo">Or add a photo of your registration card (optional)</span>
+          <label class="file__drop">
+            <input type="file" name="attachment" id="leadFile" accept="image/*,.pdf">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>
+            <span class="file__text" id="fileText" data-i18n="form.photoBtn">Take a photo or upload</span>
+            <span class="file__hint" data-i18n="form.photoHint">JPG, PNG or PDF, up to 10 MB</span>
           </label>
-          <label><span data-i18n="form.year">Year</span><input type="number" name="year" min="1995" max="2027" placeholder="2019" inputmode="numeric"></label>
+          <button type="button" class="file__clear" id="fileClear" hidden aria-label="Remove file">&times;</button>
         </div>
         <fieldset class="lead__chips">
           <legend data-i18n="form.need">What do you need? *</legend>
           <div class="chips" id="needChips">
-            <label><input type="checkbox" name="service" value="Full service"><span data-i18n="form.n1">Full service</span></label>
-            <label><input type="checkbox" name="service" value="Oil change"><span data-i18n="form.n2">Oil change</span></label>
-            <label><input type="checkbox" name="service" value="Brakes"><span data-i18n="form.n3">Brakes</span></label>
-            <label><input type="checkbox" name="service" value="Diagnostics / warning light"><span data-i18n="form.n4">Warning light</span></label>
-            <label><input type="checkbox" name="service" value="Air conditioning"><span data-i18n="form.n5">A/C</span></label>
-            <label><input type="checkbox" name="service" value="Battery"><span data-i18n="form.n6">Battery</span></label>
-            <label><input type="checkbox" name="service" value="Tyres / alignment"><span data-i18n="form.n7">Tyres</span></label>
-            <label><input type="checkbox" name="service" value="Timing belt"><span data-i18n="form.n8">Timing belt</span></label>
-            <label><input type="checkbox" name="service" value="Pre-purchase inspection"><span data-i18n="form.n9">Pre-purchase check</span></label>
-            <label><input type="checkbox" name="service" value="Other"><span data-i18n="form.n10">Other</span></label>
+            <label><input type="checkbox" value="Full service"><span data-i18n="form.n1">Full service</span></label>
+            <label><input type="checkbox" value="Oil change"><span data-i18n="form.n2">Oil change</span></label>
+            <label><input type="checkbox" value="Brakes"><span data-i18n="form.n3">Brakes</span></label>
+            <label><input type="checkbox" value="Diagnostics / warning light"><span data-i18n="form.n4">Warning light</span></label>
+            <label><input type="checkbox" value="Air conditioning"><span data-i18n="form.n5">A/C</span></label>
+            <label><input type="checkbox" value="Battery"><span data-i18n="form.n6">Battery</span></label>
+            <label><input type="checkbox" value="Tyres / alignment"><span data-i18n="form.n7">Tyres</span></label>
+            <label><input type="checkbox" value="Timing belt"><span data-i18n="form.n8">Timing belt</span></label>
+            <label><input type="checkbox" value="Pre-purchase inspection"><span data-i18n="form.n9">Pre-purchase check</span></label>
+            <label><input type="checkbox" value="Other"><span data-i18n="form.n10">Other</span></label>
           </div>
         </fieldset>
-        <div class="lead__row">
-          <label><span data-i18n="form.date">Preferred date</span><input type="date" name="preferred_date" id="leadDate"></label>
-          <label><span data-i18n="form.pickup">Pick-up &amp; drop-off?</span>
-            <select name="pickup"><option value="No" data-i18n="form.pickNo">No, I'll drive in</option><option value="Yes" data-i18n="form.pickYes">Yes, please collect my car</option></select>
-          </label>
-        </div>
-        <label class="lead__full"><span data-i18n="form.msg">Describe the issue or request</span><textarea name="message" rows="4" placeholder="e.g. Engine light on since Tuesday, slight vibration at 100 km/h" data-i18n-ph="form.msgPh"></textarea></label>
-        <label class="consent"><input type="checkbox" name="consent" required><span data-i18n="form.consent">I agree to be contacted about this request. We never share your details.</span></label>
-        <!-- anti-spam honeypot -->
+        <label class="lead__full"><span data-i18n="form.msg">Anything else we should know?</span><textarea name="Message" rows="3" placeholder="e.g. Engine light on since Tuesday" data-i18n-ph="form.msgPh"></textarea></label>
+        <label class="consent"><input type="checkbox" id="leadConsent" required><span data-i18n="form.consent">I agree to be contacted about this request. We never share your details.</span></label>
         <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button type="submit" class="btn btn--primary btn--lg" id="leadSubmit"><span data-i18n="form.submit">Send my request</span></button>
         <p class="lead__status" id="leadStatus" role="status" aria-live="polite"></p>
@@ -443,7 +440,7 @@
     </div>
   </footer>
 
-  <a id="waFab" class="wa-fab" href="https://wa.me/971000000000?text=Hi%20Selim%20Auto%20Care" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 12 12 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></a>
+  <a id="waFab" class="wa-fab" href="https://wa.me/971525155001?text=Hi%20Selim%20Auto%20Care" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 12 12 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></a>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
   <script src="/assets/js/config.js" defer></script>

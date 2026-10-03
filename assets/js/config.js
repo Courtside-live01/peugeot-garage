@@ -6,14 +6,30 @@ window.SITE = {
   // Where lead-form submissions go. FormSubmit forwards to this inbox.
   // First submission triggers a one-time activation email to this address.
   leadEmail: 'selimautocare@gmail.com',
-  formEndpoint: 'https://formsubmit.co/ajax/selimautocare@gmail.com',
+  formEndpoint: 'https://formsubmit.co/ajax/selimautocare@gmail.com',   // reminder sign-up (no attachments)
+  formAction: 'https://formsubmit.co/selimautocare@gmail.com',          // lead form (supports the registration-card photo)
+  thanksUrl: 'https://selim-auto-care.vercel.app/thanks',             // where FormSubmit sends the visitor after a lead
+  maxUploadMB: 10,
 
   // Contact details shown on the page (replace the placeholders)
-  phoneDisplay: '+971 50 000 0000',
-  phoneE164: '+971500000000',           // used for tel: and WhatsApp links
+  phoneDisplay: '+971 52 515 5001',
+  phoneE164: '+971525155001',           // used for tel: and WhatsApp links
   whatsappText: 'Hi Selim Auto Care, I would like to book a service for my Peugeot.',
   address: { en: 'Workshop 12, Industrial Area, United Arab Emirates', ar: 'ورشة 12، المنطقة الصناعية، الإمارات العربية المتحدة' },
   mapsUrl: 'https://maps.google.com/?q=Selim+Auto+Care',
+
+  // Hero showroom rotation: model image (assets/img/models) + display colour
+  heroCars: [
+    { img: '2008-blue',   name: '2008', color: '#2f7cff' },
+    { img: '3008-orange', name: '3008', color: '#e07a2a' },
+    { img: '408',         name: '408',  color: '#7bbf3a' },
+    { img: '5008-red',    name: '5008', color: '#e0453a' },
+    { img: '2008',        name: '2008', color: '#aab3bd' },
+    { img: '408-silver',  name: '408',  color: '#e6eaef' },
+    { img: '2008-yellow', name: '2008', color: '#e8b321' },
+    { img: '3008',        name: '3008', color: '#2f7cff' },
+  ],
+  heroIntervalMs: 3600,
 
   // Indicative figures used in the Insights charts (AED). Edit freely.
   priceComparison: {

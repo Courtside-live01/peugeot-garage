@@ -13,9 +13,8 @@
   function applyConfig() {
     const wa = `https://wa.me/${S.phoneE164.replace(/[^\d]/g, '')}?text=${encodeURIComponent(S.whatsappText)}`;
     $('#waLink').href = wa; $('#waFab').href = wa;
-    const pl = $('#phoneLink'); pl.href = `tel:${S.phoneE164}`; pl.textContent = S.phoneDisplay;
+    const pl = $('#phoneLink'); if (pl) { pl.href = `tel:${S.phoneE164}`; pl.textContent = S.phoneDisplay; }
     $('#year').textContent = new Date().getFullYear();
-    const d = $('#leadDate'); if (d) d.min = new Date().toISOString().slice(0, 10);
   }
 
   /* ---------------- i18n ---------------- */
@@ -30,6 +29,8 @@
     document.title = lang === 'ar' ? 'سليم أوتو كير | ورشة متخصصة في بيجو' : 'Selim Auto Care | Peugeot Specialist Garage';
     if (persist) { try { localStorage.setItem('sac-lang', lang); } catch (e) {} }
     renderServices();
+    if (hero.imgs.length) { $('#heroName').textContent = (lang === 'ar' ? 'بيجو ' : 'Peugeot ') + S.heroCars[hero.i].name; }
+    const ft = $('#fileText'); if (ft && !$('#fileField').classList.contains('has-file')) ft.textContent = t('form.photoBtn');
     carousel.render();
     buildCharts();
     planner.update();
@@ -42,7 +43,6 @@
       <article class="svc reveal is-in" style="transition-delay:${i * 60}ms">
         <div class="svc__media">
           <img src="/assets/img/services/${s.img}.webp" alt="${s.title}" loading="lazy">
-          <span class="svc__from">${t('services.from')} <b>${s.from}</b></span>
         </div>
         <div class="svc__body">
           <h3>${s.title}</h3>
@@ -61,8 +61,30 @@
   function prefill({ service, model, message }) {
     if (service) { const cb = $(`#needChips input[value="${serviceMap[service] || service}"]`); if (cb) cb.checked = true; }
     if (model) { const sel = $('#leadModel'); const opt = Array.from(sel.options).find(o => o.textContent.includes(model)); if (opt) sel.value = opt.value; }
-    if (message) { const ta = $('textarea[name="message"]'); ta.value = (ta.value ? ta.value + '\n' : '') + message; }
+    if (message) { const ta = $('textarea[name="Message"]'); ta.value = (ta.value ? ta.value + '\n' : '') + message; }
   }
+
+  /* ---------------- hero showroom rotation ---------------- */
+  const hero = {
+    i: 0, timer: null, imgs: [],
+    init() {
+      const stage = $('#heroStage'); if (!stage) return;
+      this.imgs = S.heroCars.map((c, k) => { const im = new Image(); im.src = `/assets/img/models/${c.img}.webp`; im.alt = `Peugeot ${c.name}`; im.className = 'car3d__img'; im.draggable = false; if (k === 0) im.fetchPriority = 'high'; stage.appendChild(im); return im; });
+      const cap = $('#heroCaption'); cap.innerHTML = `<i></i><span id="heroName"></span><span class="car3d__dots">${S.heroCars.map(() => '<b></b>').join('')}</span>`;
+      this.show(0, true);
+      if (!reduceMotion) this.timer = setInterval(() => this.show(this.i + 1), S.heroIntervalMs || 3600);
+      document.addEventListener('visibilitychange', () => { clearInterval(this.timer); if (!document.hidden && !reduceMotion) this.timer = setInterval(() => this.show(this.i + 1), S.heroIntervalMs || 3600); });
+    },
+    show(n, first) {
+      const stage = $('#heroStage'); const prev = this.imgs[this.i]; this.i = n % this.imgs.length; const cur = this.imgs[this.i]; const car = S.heroCars[this.i];
+      if (!first && prev !== cur) { prev.classList.remove('is-in'); prev.classList.add('is-out'); }
+      cur.classList.remove('is-out'); void cur.offsetWidth; cur.classList.add('is-in');
+      stage.style.setProperty('--car', car.color); $('#heroCaption').style.setProperty('--car', car.color);
+      stage.classList.remove('is-sweep'); void stage.offsetWidth; stage.classList.add('is-sweep');
+      $('#heroName').textContent = (lang === 'ar' ? 'بيجو ' : 'Peugeot ') + car.name;
+      $$('.car3d__dots b').forEach((d, k) => d.classList.toggle('on', k === this.i));
+    },
+  };
 
   /* ---------------- tilt (3D hover) ---------------- */
   function initTilt() {
@@ -262,7 +284,7 @@
       $('#plannerCta').onclick = () => {
         const km = $('#plKm').value, eng = $('#plEngine').selectedOptions[0].textContent;
         const msg = `${isAr() ? 'المخطط' : 'Planner'}: ${fmtN(km)} km, ${eng}. ${due.length ? (isAr() ? 'متأخر: ' : 'Overdue: ') + due.map(r => r.label).join(', ') + '. ' : ''}${soon.length ? (isAr() ? 'قريباً: ' : 'Due soon: ') + soon.map(r => r.label).join(', ') + '.' : ''}`;
-        const ta = $('textarea[name="message"]'); ta.value = msg; if (due.length || soon.length) { const cb = $('#needChips input[value="Full service"]'); cb.checked = true; }
+        const ta = $('textarea[name="Message"]'); ta.value = msg; if (due.length || soon.length) { const cb = $('#needChips input[value="Full service"]'); cb.checked = true; }
       };
     },
     init() { if (!$('#plannerForm')) return; $('#plannerForm').addEventListener('input', () => this.update()); $('#plannerForm').addEventListener('submit', e => e.preventDefault()); },
@@ -278,23 +300,29 @@
   }
   function initLeadForm() {
     const f = $('#leadForm'), st = $('#leadStatus'), btn = $('#leadSubmit');
-    f.addEventListener('submit', async e => {
+    const fileIn = $('#leadFile'), fileField = $('#fileField'), fileText = $('#fileText'), fileClear = $('#fileClear');
+    const maxBytes = (S.maxUploadMB || 10) * 1024 * 1024;
+    const resetFile = () => { fileIn.value = ''; fileField.classList.remove('has-file'); fileText.textContent = t('form.photoBtn'); fileClear.hidden = true; };
+    fileIn.addEventListener('change', () => {
+      const file = fileIn.files[0]; if (!file) return resetFile();
+      if (file.size > maxBytes) { st.className = 'lead__status err'; st.textContent = t('form.fileTooBig'); return resetFile(); }
+      st.textContent = ''; fileField.classList.add('has-file'); fileText.textContent = `${file.name} · ${(file.size / 1024 / 1024).toFixed(1)} MB`; fileClear.hidden = false;
+    });
+    fileClear.addEventListener('click', resetFile);
+    f.addEventListener('submit', e => {
       e.preventDefault();
       if (f._honey && f._honey.value) return;
-      const services = $$('input[name="service"]:checked', f).map(i => i.value);
+      const services = $$('#needChips input:checked').map(i => i.value);
       if (!f.checkValidity() || !services.length) { st.className = 'lead__status err'; st.textContent = t('form.invalid'); f.reportValidity(); return; }
-      const fd = new FormData(f);
-      const payload = {
-        _subject: `New lead: ${fd.get('name')} · ${fd.get('model')} · ${services.join(', ')}`,
-        _template: 'table', _captcha: 'false', _replyto: fd.get('email') || undefined,
-        Name: fd.get('name'), Mobile: fd.get('phone'), Email: fd.get('email') || '-', 'Plate / VIN': fd.get('plate') || '-',
-        Model: fd.get('model'), Year: fd.get('year') || '-', Services: services.join(', '), 'Preferred date': fd.get('preferred_date') || '-',
-        'Pick-up requested': fd.get('pickup'), Message: fd.get('message') || '-', Language: lang, Page: location.href, Submitted: new Date().toISOString(),
-      };
+      if (fileIn.files[0] && fileIn.files[0].size > maxBytes) { st.className = 'lead__status err'; st.textContent = t('form.fileTooBig'); return; }
+      $('#leadServices').value = services.join(', ');
+      $('#leadLang').value = lang;
+      $('#leadSubject').value = `New lead: ${f.Name.value.trim()} · ${f.Model.value} · ${services.join(', ')}`;
+      const base = S.thanksUrl || (location.origin + '/thanks');
+      $('#leadNext').value = base + (lang === 'ar' ? '?lang=ar' : '');
+      if (!fileIn.files.length) fileIn.disabled = true; // do not send an empty attachment field
       btn.disabled = true; btn.firstElementChild.textContent = t('form.sending'); st.className = 'lead__status'; st.textContent = '';
-      try { await postForm(payload); st.className = 'lead__status ok'; st.textContent = t('form.ok'); f.reset(); }
-      catch (err) { console.error(err); st.className = 'lead__status err'; st.textContent = t('form.err'); }
-      finally { btn.disabled = false; btn.firstElementChild.textContent = t('form.submit'); }
+      f.submit(); // native multipart POST to FormSubmit, which redirects to /thanks
     });
 
     const rf = $('#reminderForm'), rs = $('#reminderStatus');
@@ -312,6 +340,7 @@
   /* ---------------- boot ---------------- */
   function boot() {
     applyConfig();
+    hero.init();
     carousel.init();
     planner.init();
     initNav();
